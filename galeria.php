@@ -1,10 +1,66 @@
+<?php
+session_start();
+include "setup/conexao.php";
+
+// Se o usuário não estiver logado, manda ele para a tela de login
+if (!isset($_SESSION['idUsuario'])) {
+    header("Location: login.php");
+    exit;
+}
+
+$idUsuario = intval($_SESSION['idUsuario']);
+
+// 1. Busca os dados do usuário com Prepared Statement (Segurança contra SQL Injection)
+$sqlUsuario = "SELECT userNome, userDescricao, userFoto, userBanner FROM tblUsuario WHERE idUsuario = ?";
+$stmtUser = mysqli_prepare($conn, $sqlUsuario);
+mysqli_stmt_bind_param($stmtUser, "i", $idUsuario);
+mysqli_stmt_execute($stmtUser);
+$resUsuario = mysqli_stmt_get_result($stmtUser);
+$usuario = mysqli_fetch_assoc($resUsuario);
+
+if (!$usuario) {
+    header("Location: login.php");
+    exit;
+}
+
+$nomeExibicao = htmlspecialchars($usuario['userNome'] ?? 'Artista');
+$descricao    = htmlspecialchars($usuario['userDescricao'] ?? 'Este usuário ainda não escreveu uma biografia.');
+$fotoPerfil   = !empty($usuario['userFoto'])   ? htmlspecialchars($usuario['userFoto'])   : 'img/default-avatar.png';
+$bannerPerfil = !empty($usuario['userBanner']) ? htmlspecialchars($usuario['userBanner']) : 'img/default-banner.jpg';
+
+// 2. Busca o total de publicações do usuário
+$sqlCount = "SELECT COUNT(idPublicacao) as total FROM tblPublicacoes WHERE idUsuario = ?";
+$stmtCount = mysqli_prepare($conn, $sqlCount);
+mysqli_stmt_bind_param($stmtCount, "i", $idUsuario);
+mysqli_stmt_execute($stmtCount);
+$resCount = mysqli_stmt_get_result($stmtCount);
+$totalObras = mysqli_fetch_assoc($resCount)['total'] ?? 0;
+
+// 3. Busca as 4 publicações mais recentes do usuário
+$publicacoes = [];
+$sqlPublicacoes = "SELECT idPublicacao, pubLink, pubLegenda FROM tblPublicacoes WHERE idUsuario = ? ORDER BY pubHora DESC LIMIT 4";
+$stmtPub = mysqli_prepare($conn, $sqlPublicacoes);
+mysqli_stmt_bind_param($stmtPub, "i", $idUsuario);
+mysqli_stmt_execute($stmtPub);
+$resPublicacoes = mysqli_stmt_get_result($stmtPub);
+
+if ($resPublicacoes) {
+    while ($linha = mysqli_fetch_assoc($resPublicacoes)) {
+        $publicacoes[] = [
+            'id'     => $linha['idPublicacao'],
+            'img'    => $linha['pubLink'],
+            'titulo' => $linha['pubLegenda'] ?? 'Sem título',
+        ];
+    }
+}
+?>
 <!DOCTYPE html>
 <html lang="PT-BR">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title> ReddArt | Galeria </title>
+    <title> Galeria | ReddArt </title>
 
     <!-- Estilos Personalizados -->
     <link rel="stylesheet" href="css/Galeria.css">
@@ -18,89 +74,14 @@
 
 <body>
 
-    <!-- BANNER INDEPENDENTE DO TIPO -->
     <div class="banner">
-        <img src="images/Kuro.webp" alt="Banner Do Perfil">
+        <img src="<?php echo $bannerPerfil; ?>" alt="Banner de <?php echo $nomeExibicao; ?>" class="banner-img">
     </div>
 
-    <!--Linha Normal do HTML -->
-    <div class="linha">
-        <div class="foto">
-            <img src="images/Hinako.jpg" alt="Foto do Perfil">
+    <div class="Header">
+        <div class="avatar">
+            
         </div>
-        <div class="links">
-            <a href="Perfil.php"><b>Perfil</b></a>
-            <a href="publicacoesPerfil.php"><b> Galeria </b></a>
-            <a href=""><b>Coleções</b></a>
-            <a href=""><b>Redes Sociais</b></a>
-        </div>
-    </div>
-
-    <!-- LINHA DO MOBILE -->
-    <div class="linha-mobile">
-        <div class="foto-mobile">
-            <img src="images/Hinako.jpg" alt="">
-        </div>
-    </div>
-
-
-    <!-- COVER DESKTOP -->
-    <div class="cover"></div>
-
-    <!-- COVER MOBILE (NOME) -->
-    <div class="cover-mobile"></div>
-
-
-    <!-- CORPO DESKTOP -->
-    <div class="corpo">
-        <a href="">
-            <div class="publicacao">
-                <img src="images/FE5.jpg" alt="">
-                <div class="overlay"><span> Foreground Eclipse </span></div>
-            </div>
-        </a>
-        <a href="">
-            <div class="publicacao">
-                <img src="images/TW3.jpg" alt="">
-                <div class="overlay"><span> Takamachi Walk </span></div>
-            </div>
-        </a>
-        <a href="">
-            <div class="publicacao">
-                <img src="images/Yoshiha.jpg" alt="">
-                <div class="overlay"><span> Yoshiha </span></div>
-            </div>
-        </a>
-        <a href="">
-            <div class="publicacao">
-                <img src="images/UC1.jpg" alt="">
-                <div class="overlay"><span> Undead Corporation </span></div>
-            </div>
-        </a>
-        <a href="">
-            <div class="publicacao">
-                <img src="images/IMPRISONEDXII.png" alt="">
-                <div class="overlay"><span> Ave Mujica </span></div>
-            </div>
-        </a>
-        <a href="">
-            <div class="publicacao">
-                <img src="images/Utakotoba.png" alt="">
-                <div class="overlay"><span> MyGO!!!!! </span></div>
-            </div>
-        </a>
-        <a href="">
-            <div class="publicacao">
-                <img src="images/Fire Bird.jpg" alt="">
-                <div class="overlay"><span> Roselia </span></div>
-            </div>
-        </a>
-        <a href="">
-            <div class="publicacao">
-                <img src="images/INVADE.jpg" alt="">
-                <div class="overlay"><span> Raise A Suilen </span></div>
-            </div>
-        </a>
     </div>
 
     <!--Footer do Desktop -->

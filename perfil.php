@@ -78,16 +78,16 @@ if ($resPublicacoes) {
         <div class="banner-container">
             <img src="<?php echo $bannerPerfil; ?>" alt="Banner de <?php echo $nomeExibicao; ?>" class="banner-img">
         </div>
-        
+
         <div class="profile-nav-bar">
             <div class="container nav-content">
                 <div class="avatar-wrapper">
                     <img src="<?php echo $fotoPerfil; ?>" alt="Foto de <?php echo $nomeExibicao; ?>" class="avatar-img">
                 </div>
-                
+
                 <nav class="profile-menu">
                     <a href="perfil.php" class="active"><i class="fa-solid fa-user"></i> PERFIL</a>
-                    <a href="Galeria.php"><i class="fa-solid fa-image"></i> GALERIA</a>
+                    <a href="galeria.php"><i class="fa-solid fa-image"></i> GALERIA</a>
                     <a href="#"><i class="fa-solid fa-layer-group"></i> COLEÇÕES</a>
                     <a href="#"><i class="fa-solid fa-share-nodes"></i> REDES SOCIAIS</a>
                 </nav>
@@ -108,7 +108,7 @@ if ($resPublicacoes) {
                     <span><i class="fa-solid fa-palette"></i> <b><?php echo $totalObras; ?></b> obras</span>
                 </div>
             </div>
-            
+
             <div class="user-actions">
                 <a href="editarPerfil.php" class="btn-edit"><i class="fa-solid fa-pen-to-square"></i> EDITAR PERFIL</a>
             </div>
@@ -116,7 +116,7 @@ if ($resPublicacoes) {
 
         <!-- CORPO PRINCIPAL: RECENTES & BIO -->
         <div class="profile-grid">
-            
+
             <!-- SEÇÃO DE PUBLICAÇÕES RECENTES -->
             <section class="profile-section posts-section">
                 <div class="section-header">
@@ -165,7 +165,9 @@ if ($resPublicacoes) {
     <footer class="footer">
         <div class="container footer-content">
             <div class="footer-brand">
-                <a href="index.php"><h2 class="footer-logo">ReddArt</h2></a>
+                <a href="index.php">
+                    <h2 class="footer-logo">ReddArt</h2>
+                </a>
                 <p>Plataforma para compartilhamento e descoberta de artes digitais.</p>
             </div>
 
@@ -190,4 +192,5 @@ if ($resPublicacoes) {
     </footer>
 
 </body>
+
 </html>
