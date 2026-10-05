@@ -1,17 +1,8 @@
-/* CSS DO PERFIL 2 
-
 /* ==========================================
-   1. CONFIGURAÇÕES GERAIS E VARIÁVEIS
- ========================================== */
-
-body {
-    background: linear-gradient(135deg, #000000, #0c0c11, #111113);
-    margin: 0;
-    padding: 0;
-}
-
+   1. CONFIGURAÃ‡Ã•ES GERAIS E VARIÃVEIS
+========================================== */
 :root {
-    --Background: #0C0C11;
+    --bg-main: #0C0C11;
     --bg-sec: #161A1F;
     --accent: #6366F1;
     --accent-hover: #4f46e5;
@@ -21,339 +12,307 @@ body {
     --font-text: "Inter", sans-serif;
 }
 
-
-/* Tipografia Utilitária */
-.archivo-black-regular {
-    font-family: "Archivo Black", sans-serif;
-    font-weight: 400;
-    font-style: normal;
-}
-
-.prociono-regular {
-    font-family: "Prociono", serif;
-    font-weight: 400;
-    font-style: normal;
-}
-
-/* ==========================================
-   2. BANNER, FOTO DE PERFIL E LINKS (DESKTOP)
-========================================== */
-
-.banner {
-    width: 100%;
-    height: 400px;
-}
-
-.banner img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    object-position: center;
-}
-
-.linha {
-    width: 100%;
-    height: 60px;
-    background-color: #161A1F;
-    display: flex;
-    align-items: center;
-}
-
-
-.linha .links a {
-    font-size: 22px;
-    text-decoration: none;
-    color: white;
-}
-
-.linha .foto {
-    width: 250px;
-    height: 250px;
-    position: absolute;
-    left: 200px;
-    border-radius: 150px;
-    position: absolute;
-    border: 2px solid white;
-}
-
-.foto img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    object-position: center;
-    border-radius: 150px;
-}
-
-.linha .links {
-    width: 40%;
-    height: 100%;
-    margin-left: 500px;
-    display: flex;
-    align-items: center;
-    gap: 40px;
-    font-family: 'Poppins', sans-serif;
-}
-
-.linha .links a:hover {
-    color: rgb(209, 209, 209);
-}
-
-.linha .links a {
-    font-size: 22px;
-    text-decoration: none;
-    color: white;
-    transition: color(1.2s);
-}
-
-/*======================================
-    COVER PRA ARRUAMAR O ESPAÇO DA FOTO 
-======================================*/
-
-.cover {
-    width: 100%;
-    height: 120px;
-    display: flex;
-    gap: 20px;
-    align-items: center;
-}
-
-.cover .box {
-    width: 40%;
-    height: 100%;
-    margin-left: 500px;
-}
-
-.cover .nome {
-    width: 100%;
-    height: 80%;
-    display: flex;
-    justify-content: start;
-    align-items: center;
-    font-family: "Archivo Black", sans-serif;
-    font-size: 40px;
-    color: white;
-}
-
-.cover .info {
-    width: 100%;
-    height: 20%;
-    font-family: 'Poppins', sans-serif;
-    color: white;
-}
-
-.cover a {
-    width: 20%;
-    height: 50%;
-    background-color: #6366F1;
-    float: left;
-    margin-left: 50px;
-    color: white;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    text-decoration: none;
-    font-size: 20px;
-    font-family: "Archivo Black", sans-serif;
-}
-
-.cover a:hover {
-    background-color: var(--accent-hover);
-    box-shadow: 0 6px 12px rgba(99, 102, 241, 0.4);
-}
-
-/* ==========================================
-   4. CORPO DO PERFIL (CONTEÚDO)
-========================================== */
-
-.corpo {
-    width: 100%;
-    min-height: 500px;
-    height: auto;
-    display: flex;
-    flex-direction: column;
-}
-
-.corpo .container {
-    width: 95%;
-    min-height: 400px;
-    height: auto;
-    margin: 50px auto;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: start;
-    gap: 25px;
-    padding: 40px;
+* {
+    margin: 0;
+    padding: 0;
     box-sizing: border-box;
 }
 
-.container .titulo {
-    width: 95%;
-    height: 50px;
+body {
+    background: linear-gradient(135deg, #000000, #0c0c11, #111113);
+    color: var(--text-main);
+    font-family: var(--font-text);
+    min-height: 100vh;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+/* ==========================================
+   2. HERO E HEADER DO PERFIL
+========================================== */
+.profile-header {
+    width: 100%;
+    position: relative;
+    background-color: var(--bg-sec);
+}
+
+.banner-container {
+    width: 100%;
+    height: 320px;
+    overflow: hidden;
+}
+
+.banner-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+}
+
+.profile-nav-bar {
+    background-color: var(--bg-sec);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.nav-content {
     display: flex;
     align-items: center;
-    color: white;
-    font-family: "Archivo Black", sans-serif;
-    font-size: 40px;
-}
-
-.container .publicacoes {
-    width: 400px;
-    height: 400px;
-    flex-shrink: 0;
-    background-color: white;
     position: relative;
-    overflow: hidden;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    height: 70px;
 }
 
-.container .publicacoes img {
+/* Foto de Perfil com sobreposição no Banner */
+.avatar-wrapper {
+    position: absolute;
+    top: -50px;
+    left: 20px;
+    width: 160px;
+    height: 160px;
+    border-radius: 50%;
+    border: 3px solid #ffffff;
+    overflow: hidden;
+    background-color: var(--bg-sec);
+    z-index: 5;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.6);
+}
+
+.avatar-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* NavegaÃ§Ã£o da pÃ¡gina */
+.profile-menu {
+    display: flex;
+    gap: 30px;
+    margin-left: 200px;
+}
+
+.profile-menu a {
+    color: var(--text-main);
+    text-decoration: none;
+    font-family: var(--font-title);
+    font-size: 16px;
+    padding: 22px 5px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: color 0.2s ease, border-bottom 0.2s ease;
+    border-bottom: 3px solid transparent;
+}
+
+.profile-menu a:hover,
+.profile-menu a.active {
+    color: var(--accent);
+    border-bottom-color: var(--accent);
+}
+
+/* ==========================================
+   3. INFORMAÃ‡Ã•ES DO USUÃRIO & BOTÃ•ES
+========================================== */
+.profile-main {
+    padding-top: 40px;
+    padding-bottom: 60px;
+}
+
+.profile-info-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 40px;
+    gap: 20px;
+}
+
+.user-name {
+    font-family: var(--font-title);
+    font-size: 36px;
+    color: var(--text-main);
+    line-height: 1.1;
+}
+
+.user-meta {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    color: var(--text-muted);
+    font-size: 15px;
+    margin-top: 8px;
+}
+
+.user-meta .dot {
+    color: rgba(255, 255, 255, 0.2);
+}
+
+.btn-edit {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    background-color: var(--accent);
+    color: var(--text-main);
+    padding: 12px 28px;
+    text-decoration: none;
+    font-family: var(--font-title);
+    font-size: 16px;
+    transition: background-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.btn-edit:hover {
+    background-color: var(--accent-hover);
+    box-shadow: 0 6px 16px rgba(99, 102, 241, 0.4);
+}
+
+/* ==========================================
+   4. ESTRUTURA GRID (PUBLICAÃ‡Ã•ES E BIO)
+========================================== */
+.profile-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 35px;
+}
+
+.profile-section {
+    background-color: var(--bg-sec);
+    padding: 30px;
+    border-radius: 4px;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 25px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.section-header h2 {
+    font-family: var(--font-title);
+    font-size: 22px;
+    color: var(--text-main);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.see-all {
+    color: var(--accent);
+    text-decoration: none;
+    font-family: var(--font-text);
+    font-weight: 600;
+    font-size: 14px;
+}
+
+.see-all:hover {
+    text-decoration: underline;
+}
+
+/* Cards das PublicaÃ§Ãµes */
+.posts-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 20px;
+}
+
+.post-card {
+    position: relative;
+    aspect-ratio: 1 / 1;
+    overflow: hidden;
+    background-color: #000;
+}
+
+.post-card img {
     width: 100%;
     height: 100%;
     object-fit: cover;
     transition: transform 0.3s ease;
 }
 
-.publicacoes:hover {
-    transform: translateY(-8px);
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
+.post-card:hover img {
+    transform: scale(1.15);
 }
 
-.publicacoes:hover img {
-    transform: scale(1.2);
-}
-
-.publicacoes .overlay {
+.post-overlay {
     position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    padding: 16px 14px 12px;
-    background: linear-gradient(to top, rgba(0, 0, 0, 0.85) 0%, rgba(0, 0, 0, 0) 100%);
+    inset: 0;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.85) 0%, transparent 100%);
     opacity: 0;
-    transition: opacity 0.3s ease, transform 0.3s ease;
-    box-sizing: border-box;
+    display: flex;
+    align-items: flex-end;
+    padding: 16px;
+    transition: opacity 0.3s ease;
 }
 
-.publicacoes:hover .overlay {
+.post-card:hover .post-overlay {
     opacity: 1;
-    transform: translateY(0);
 }
 
-.overlay span {
+.post-overlay span {
     color: var(--text-main);
     font-family: var(--font-text);
-    font-size: 30px;
+    font-size: 16px;
     font-weight: 600;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
-/* SOBRE MIM */
-
-.corpo .descricao {
-    width: 95%;
-    min-height: 400px;
-    margin: 60px auto;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    /* adicionado */
-    padding: 40px;
-    box-sizing: border-box;
-}
-
-.descricao .titulo {
-    width: 95%;
-    /* alterado de 100% para 95% */
-    height: 50px;
-    display: flex;
-    align-items: center;
-    color: white;
-    font-family: "Archivo Black", sans-serif;
-    font-size: 40px;
-}
-
-.descricao .texto {
-    width: 100%;
-    height: 200px;
-    display: flex;
-    margin: 30px auto;
-}
-
-.descricao .texto form {
-    width: 100%;
-    height: 100%;
-}
-
-.descricao .texto textarea {
-    width: 100%;
-    height: 100%;
-    resize: none;
-    padding: 20px;
-    border: none;
-    box-sizing: border-box;
-    outline: none;
-    background-color: var(--bg-sec);
+/* Biografia (Sobre Mim) */
+.bio-content p {
     color: var(--text-main);
-    font-family: var(--font-text);
-    font-size: 16px;
-    line-height: 1.6;
+    font-size: 15px;
+    line-height: 1.7;
+    word-break: break-word;
 }
 
-/* Estado vazio: aparece quando o usuário ainda não publicou nada
-   (mesmo bloco reaproveitado no desktop, na faixa 1025px-1440px e no mobile) */
-.sem-publicacoes {
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 14px;
-    padding: 60px 20px;
-    box-sizing: border-box;
+/* Sem publicaÃ§Ãµes */
+.empty-state {
     text-align: center;
+    padding: 40px 10px;
 }
 
-.sem-publicacoes p {
-    margin: 0;
+.icon-empty {
+    font-size: 40px;
     color: var(--text-muted);
-    font-family: var(--font-text);
-    font-size: 16px;
+    margin-bottom: 15px;
 }
 
-.sem-publicacoes a {
-    color: white;
+.empty-state p {
+    color: var(--text-muted);
+    margin-bottom: 15px;
+}
+
+.btn-primary {
+    display: inline-block;
     background-color: var(--accent);
+    color: white;
+    padding: 10px 20px;
     text-decoration: none;
-    padding: 12px 24px;
     font-family: var(--font-title);
     font-size: 14px;
-    transition: background-color 0.2s ease;
 }
 
-.sem-publicacoes a:hover {
-    background-color: var(--accent-hover);
-}
-
-/*===================================
-    5. FOOTER
-====================================*/
-
+/* ==========================================
+   5. FOOTER
+========================================== */
 .footer {
     width: 100%;
-    height: auto;
     background-color: var(--bg-sec);
     border-top: 1px solid rgba(255, 255, 255, 0.08);
-    padding: 60px 80px 0;
-    box-sizing: border-box;
-    display: flex;
-    flex-direction: column;
+    padding: 60px 0 0;
     margin-top: 60px;
 }
 
-.footer-top {
-    width: 100%;
+.footer-content {
     display: flex;
-    flex-wrap: wrap;
     justify-content: space-between;
+    flex-wrap: wrap;
     gap: 40px;
     padding-bottom: 40px;
 }
@@ -366,41 +325,32 @@ body {
     font-family: var(--font-title);
     font-size: 28px;
     color: var(--text-main);
-    margin: 0 0 12px;
+    margin-bottom: 10px;
 }
 
-.footer-tagline {
-    font-family: var(--font-text);
+.footer-brand p {
     font-size: 14px;
     color: var(--text-muted);
-    line-height: 1.6;
-    margin: 0;
 }
 
 .footer-col {
     display: flex;
     flex-direction: column;
     gap: 12px;
-    min-width: 160px;
 }
 
 .footer-col h3 {
-    font-family: var(--font-text);
     font-size: 14px;
     font-weight: 600;
     text-transform: uppercase;
-    letter-spacing: 1px;
     color: var(--text-main);
-    margin: 0 0 8px;
 }
 
 .footer-col a {
-    font-family: var(--font-text);
-    font-size: 15px;
     color: var(--text-muted);
     text-decoration: none;
-    transition: color 0.1s ease;
-    width: fit-content;
+    font-size: 14px;
+    transition: color 0.2s;
 }
 
 .footer-col a:hover {
@@ -408,566 +358,68 @@ body {
 }
 
 .footer-bottom {
-    width: 100%;
     border-top: 1px solid rgba(255, 255, 255, 0.08);
     padding: 20px 0;
-    display: flex;
-    justify-content: center;
-}
-
-.footer-bottom p {
-    font-family: var(--font-text);
+    text-align: center;
     font-size: 13px;
     color: var(--text-muted);
-    margin: 0;
-}
-
-.footer-brand a {
-    text-decoration: none;
 }
 
 /* ==========================================
-   DIVs Mobile
+   6. RESPONSIVIDADE (MEDIA QUERIES)
 ========================================== */
 
-.linha-mobile {
-    display: none;
-}
-
-.links-mobile {
-    display: none;
-}
-
-.cover-mobile {
-    width: 100%;
-    height: 69px;
-    display: none;
-}
-
-.nome-mobile {
-    display: none;
-}
-
-.info-mobile {
-    display: none;
-}
-
-.info .editar-mobile {
-    display: none;
-}
-
-.editar-mobile {
-    display: none;
-}
-
-.editar-mobile H1 {
-    display: none;
-}
-
-.corpo-mobile {
-    display: none;
-}
-
-.corpo-mobile .titulo-mobile {
-    display: none;
-}
-
-.corpo-mobile .publicacao-mobile {
-    display: none;
-}
-
-.descricao-mobile {
-    display: none;
-}
-
-.descricao-mobile .title-mobile {
-    display: none;
-}
-
-.descricao-mobile .texto-mobile {
-    display: none;
-}
-
-.footer-mobile {
-    display: none;
-}
-
-/* Elementos exclusivos do layout 1025px–1440px ficam escondidos
-   fora dessa faixa, junto com os outros grupos "-mobile" acima. */
-.trace,
-.kaigaku,
-.publicacaozinha {
-    display: none;
-}
-
-/*====================================
-    RESPONSIVIDADE
-====================================*/
-
-@media screen and (min-width: 1025px) and (max-width:1440px) {
-
-    .corpo,
-    .cover,
-    .linha {
-        display: none;
-    }
-
-    .banner {
-        height: 250px;
-    }
-
-    .trace {
-        display: flex;
-        width: 100%;
-        height: 60px;
-        background-color: #161A1F;
-        position: relative;
-        align-items: center;
-        justify-content: start;
-    }
-
-    .trace .photo {
-        display: flex;
-        width: 200px;
-        height: 200px;
-        background-color: var(--bg-sec);
-        position: absolute;
-        border-radius: 100%;
-        left: 10%;
-        border: 2px solid white;
-        overflow: hidden;
-    }
-
-    .photo img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        object-position: center;
-        border-radius: 100%;
-    }
-
-    .trace .linka {
-        display: flex;
-        width: 60%;
-        height: 100%;
-        align-items: center;
-        margin-left: 370px;
-        font-family: 'Poppins', sans-serif;
-        font-size: 20px;
-        gap: 20px;
-    }
-
-    .linka a {
-        text-decoration: none;
-        color: white;
-    }
-
-    .kaigaku {
-        display: flex;
-        width: 100%;
-        height: 80px;
-        align-items: end;
-    }
-
-    .kaigaku .namae {
-        display: flex;
-        height: 100%;
-        width: auto;
-        margin-left: 370px;
-        align-items: center;
-        font-family: "Archivo Black", sans-serif;
-        font-size: 35px;
-        color: white;
-    }
-
-    .kaigaku .namae h1 {
-        margin: 0;
-    }
-
-    .kaigaku .information {
-        display: flex;
-        width: 20%;
-        height: 100%;
-        margin-left: 20px;
-        align-items: end;
-        color: var(--text-muted);
-        font-family: 'Poppins', sans-serif;
-        gap: 20px;
-    }
-
-    .information span {
-        font-family: 'Poppins', sans-serif;
-    }
-
-    .kaigaku a {
-        width: 15%;
-        height: 40px;
-        background-color: #6366F1;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        text-decoration: none;
-        color: white;
-        margin-left: 150px;
-        font-family: 'Poppins', sans-serif;
-        font-size: 20px;
-    }
-
-    .kaigaku a:hover {
-        background-color: #4f46e5;
-    }
-
-    /* Bloco de publicações recentes (1025px-1440px) */
-    .publicacaozinha {
-        display: flex;
-        width: 95%;
-        height: auto;
-        margin: 70px auto;
-        flex-direction: column;
-        gap: 25px;
-    }
-
-    .publicacaozinha .Titulo {
-        display: flex;
-        width: 100%;
-        height: 60px;
-        align-items: center;
-        color: white;
-        font-family: "Archivo Black", sans-serif;
-        font-size: 28px;
-    }
-
-    .publicacaozinha .Titulo h1 {
-        margin: 0;
-    }
-
-    .publicacaozinha .post {
-        width: 100%;
-        display: grid;
-        grid-template-columns: repeat(2, 1fr);
-        gap: 25px;
-    }
-
-    .publicacaozinha .post .sem-publicacoes {
-        grid-column: 1 / -1;
-    }
-
-    .publicacaozinha .post-item {
-        position: relative;
-        width: 100%;
-        aspect-ratio: 16 / 9;
-        overflow: hidden;
-        box-sizing: border-box;
-        border: 2px solid white;
-        background-color: var(--bg-sec);
-        transition: transform 0.3s ease, box-shadow 0.3s ease;
-    }
-
-    .publicacaozinha .post-item:hover {
-        transform: translateY(-6px);
-        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
-    }
-
-    .publicacaozinha .post-item img {
-        display: block;
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        object-position: center;
-        transition: transform 0.3s ease;
-    }
-
-    .publicacaozinha .post-item:hover img {
-        transform: scale(1.15);
-    }
-
-    .publicacaozinha .post-overlay {
-        position: absolute;
-        bottom: 0;
-        left: 0;
-        width: 100%;
-        padding: 14px 12px 10px;
-        background: linear-gradient(to top, rgba(0, 0, 0, 0.85) 0%, rgba(0, 0, 0, 0) 100%);
-        opacity: 0;
-        transform: translateY(10px);
-        transition: opacity 0.3s ease, transform 0.3s ease;
-        box-sizing: border-box;
-    }
-
-    .publicacaozinha .post-item:hover .post-overlay {
-        opacity: 1;
-        transform: translateY(0);
-    }
-
-    .publicacaozinha .post-overlay span {
-        color: var(--text-main);
-        font-family: var(--font-text);
-        font-size: 18px;
-        font-weight: 600;
-    }
-
-}
-
+/* Notebooks / Monitores MÃ©dios */
 @media screen and (max-width: 1024px) {
+    .profile-grid {
+        grid-template-columns: 1fr;
+    }
+}
 
-    html,
-    body {
-        width: 100%;
-        margin: 0;
-        padding: 0;
-        overflow-x: hidden;
+/* Tablets e Celulares */
+@media screen and (max-width: 768px) {
+    .banner-container {
+        height: 180px;
     }
 
-    /* Banner */
-    .banner {
-        width: 100%;
-        height: 250px;
-    }
-
-    .banner img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        object-position: center;
-    }
-
-    .linha {
-        display: none;
-    }
-
-    .linha-mobile {
-        display: flex;
-        width: 100%;
-        height: 60px;
-        background-color: #161A1F;
-        justify-content: center;
-        align-items: center;
-        position: relative;
-    }
-
-    .linha-mobile .foto-mobile {
-        display: flex;
-        width: 200px;
-        height: 200px;
-        background-color: white;
-        border-radius: 100%;
-        position: absolute;
-        border: 2px solid white;
-        z-index: 10;
-    }
-
-    .foto-mobile img {
-        width: 100%;
-        height: 100%;
-        border-radius: 100%;
-    }
-
-    .cover {
-        display: none;
-    }
-
-    .cover-mobile {
-        display: flex;
-        width: 100%;
-        height: 72px;
-    }
-
-    .links {
-        display: none;
-    }
-
-    /* Links mobile aparecem abaixo da foto */
-    .links-mobile {
-        display: flex;
-        justify-content: center;
-        flex-wrap: wrap;
-        gap: 16px;
-        padding: 20px 20px 20px;
-    }
-
-    .links-mobile a {
-        font-size: 25px;
-        text-decoration: none;
-        color: white;
-        font-size: 20px;
-        font-family: "Archivo Black", sans-serif;
-        font-weight: bold;
-        padding: 6px 10px;
-        border-bottom: 2px solid transparent;
-        transition: border-color 0.2s;
-    }
-
-    .links-mobile a:hover {
-        border-bottom: 2px solid #6366F1;
-        color: #6366F1;
-        transition: color(0.5s);
-    }
-
-    .cover {
-        display: none;
-    }
-
-    .cover-mobile {
-        display: flex;
-    }
-
-    .nome-mobile {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        margin: 0 auto;
-        color: white;
-        font-size: 30px;
-        font-family: "Archivo Black", sans-serif;
-        width: 50%;
-        height: 70px;
-    }
-
-    .info-mobile {
-        display: flex;
-        width: 70%;
-        height: 30px;
-        align-items: center;
-        justify-content: center;
-        margin: 0 auto;
-        font-family: "Inter", sans-serif;
-        color: white;
-    }
-
-    .editar-mobile {
-        display: flex;
-        width: 60%;
-        height: 70px;
-        background-color: #6366F1;
-        margin: 20px auto;
-        justify-content: center;
-        align-items: center;
-        font-family: "Archivo Black", sans-serif;
-        color: white;
-        font-size: 26px;
-        text-decoration: none;
-    }
-
-    .editar-mobile H1 {
-        display: flex;
-        text-decoration: none;
-    }
-
-    a:has(.editar-mobile) {
-        border-bottom: none !important;
-        text-decoration: none;
-    }
-
-    .corpo {
-        display: none;
-    }
-
-    .corpo-mobile {
-        display: flex;
-        width: 90%;
-        min-height: 600px;
+    .nav-content {
+        flex-direction: column;
         height: auto;
-        margin: 70px auto;
-        display: flex;
-        flex-direction: column;
-        flex: wrap;
-        gap: 40px;
-        box-sizing: border-box;
+        padding-top: 55px;
+        padding-bottom: 15px;
     }
 
-    .corpo-mobile .titulo-mobile {
-        display: flex;
-        width: 100%;
-        height: 70px;
-        align-items: center;
+    .avatar-wrapper {
+        width: 110px;
+        height: 110px;
+        top: -55px;
+        left: 50%;
+        transform: translateX(-50%);
+    }
+
+    .profile-menu {
+        margin-left: 0;
+        gap: 15px;
+        flex-wrap: wrap;
         justify-content: center;
-        color: white;
-        font-family: "Archivo Black", sans-serif;
-        font-size: 20px;
     }
 
-    .corpo-mobile .publicacao-mobile {
-        display: flex;
-        width: 90%;
-        height: 600px;
-        margin: 0 auto;
-    }
-
-    .publicacao-mobile img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        object-position: center;
-    }
-
-    .descricao-mobile {
-        display: flex;
-        width: 90%;
-        height: 500px;
-        margin: 0 auto;
-        flex-direction: column;
-    }
-
-    .descricao-mobile .title-mobile {
-        display: flex;
-        width: 100%;
-        height: 70px;
-        align-items: center;
-        justify-content: center;
-        color: white;
-        font-family: "Archivo Black", sans-serif;
-        font-size: 30px;
-    }
-
-    .descricao-mobile .texto-mobile {
-        display: flex;
-        width: 100%;
-        height: 430px;
-        margin: 15px auto;
-    }
-
-    .texto-mobile form {
-        width: 100%;
-        height: 100%;
-    }
-
-    .texto-mobile textarea {
-        width: 100%;
-        height: 100%;
-        box-sizing: border-box;
-        resize: none;
-        padding: 20px;
-        border: none;
-        outline: none;
-        background-color: var(--bg-sec);
-        color: var(--text-main);
-        font-family: var(--font-text);
-        font-size: 16px;
-        line-height: 1.6;
-    }
-}
-
-@media screen and (max-width:700px) {
-    .editar-mobile {
-        font-size: 20px;
-    }
-
-    .titulo-mobile h1 {
-        font-size: 25px;
-    }
-}
-
-
-@media screen and (max-width:450px) {
-    .editar-mobile {
+    .profile-menu a {
+        padding: 8px 12px;
         font-size: 14px;
     }
 
-    .titulo-mobile h1 {
-        font-size: 20px;
+    .profile-info-header {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
     }
 
-    .title-mobile h1 {
-        font-size: 30px;
+    .user-meta {
+        justify-content: center;
+    }
+
+    .btn-edit {
+        width: 100%;
     }
 }
