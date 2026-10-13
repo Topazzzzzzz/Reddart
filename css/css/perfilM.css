@@ -1,0 +1,739 @@
+/* CSS DO PERFIL 2 
+
+/* ==========================================
+   1. CONFIGURAÇÕES GERAIS E VARIÁVEIS
+ ========================================== */
+
+body {
+    background-color: #0E0E12;
+    margin: 0;
+    padding: 0;
+}
+
+:root {
+    --Background: #0C0C11;
+    --bg-sec: #161A1F;
+    --accent: #6366F1;
+    --accent-hover: #4f46e5;
+    --text-main: #ffffff;
+    --text-muted: #a1a1aa;
+    --font-title: "Archivo Black", sans-serif;
+    --font-text: "Inter", sans-serif;
+}
+
+
+/* Tipografia Utilitária */
+.archivo-black-regular {
+    font-family: "Archivo Black", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+}
+
+.prociono-regular {
+    font-family: "Prociono", serif;
+    font-weight: 400;
+    font-style: normal;
+}
+
+/* ==========================================
+   2. BANNER, FOTO DE PERFIL E LINKS (DESKTOP)
+========================================== */
+
+.banner {
+    width: 100%;
+    height: 400px;
+}
+
+.banner img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+}
+
+.linha {
+    width: 100%;
+    height: 60px;
+    background-color: #161A1F;
+    display: flex;
+    align-items: center;
+}
+
+
+.linha .links a {
+    font-size: 22px;
+    text-decoration: none;
+    color: white;
+}
+
+.linha .foto {
+    width: 250px;
+    height: 250px;
+    position: absolute;
+    left: 200px;
+    border-radius: 150px;
+    position: absolute;
+    border: 2px solid white;
+}
+
+.foto img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    border-radius: 150px;
+}
+
+.linha .links {
+    width: 40%;
+    height: 100%;
+    margin-left: 550px;
+    display: flex;
+    align-items: center;
+    gap: 40px;
+    font-family: 'Poppins', sans-serif;
+}
+
+.linha .links a:hover {
+    color: rgb(209, 209, 209);
+}
+
+.linha .links a {
+    font-size: 22px;
+    text-decoration: none;
+    color: white;
+    transition: color(1.2s);
+}
+
+/*======================================
+    COVER PRA ARRUAMAR O ESPAÇO DA FOTO 
+======================================*/
+
+.cover {
+    width: 100%;
+    height: 98px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.cover .Nome {
+    width: auto;
+    min-width: 15%;
+    height: 100%;
+    margin-left: 470px;
+    display: flex;
+    align-items: center;
+    font-family: "Archivo Black", sans-serif;
+    font-size: 40px;
+    color: white;
+    float: left;
+}
+
+.cover .info {
+    width: 20%;
+    height: 100%;
+    display: flex;
+    align-items: end;
+    font-family: "Inter", sans-serif;
+    font-size: 17px;
+    color: var(--text-muted);
+    gap: 8px;
+    font-weight: 500;
+    margin-left: 20px;
+}
+
+.info span::after {
+    content: "·";
+    margin-left: 8px;
+    color: var(--text-muted);
+}
+
+.info span:last-child::after {
+    content: "";
+}
+
+.cover a {
+    width: 20%;
+    height: 50%;
+    background-color: #6366F1;
+    float: left;
+    margin-left: 150px;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-decoration: none;
+    font-size: 20px;
+    font-family: "Archivo Black", sans-serif;
+}
+
+.cover a:hover {
+    background-color: var(--accent-hover);
+    box-shadow: 0 6px 12px rgba(99, 102, 241, 0.4);
+}
+
+/* ==========================================
+   4. CORPO DO PERFIL (CONTEÚDO)
+========================================== */
+
+.corpo {
+    width: 100%;
+    min-height: 500px;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+}
+
+.corpo .container {
+    width: 95%;
+    min-height: 400px;
+    height: auto;
+    margin: 50px auto;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 25px;
+    padding: 40px;
+    box-sizing: border-box;
+}
+
+.container .titulo {
+    width: 95%;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    color: white;
+    font-family: "Archivo Black", sans-serif;
+    font-size: 40px;
+}
+
+.container .publicacoes {
+    width: 400px;
+    height: 400px;
+    flex-shrink: 0;
+    background-color: white;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.container .publicacoes img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.publicacoes:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
+}
+
+.publicacoes:hover img {
+    transform: scale(1.2);
+}
+
+.publicacoes .overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    padding: 16px 14px 12px;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.85) 0%, rgba(0, 0, 0, 0) 100%);
+    opacity: 0;
+    transform: translateY(10px);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    box-sizing: border-box;
+}
+
+.publicacoes:hover .overlay {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.overlay span {
+    color: var(--text-main);
+    font-family: var(--font-text);
+    font-size: 30px;
+    font-weight: 600;
+}
+
+/* SOBRE MIM */
+
+.corpo .descricao {
+    width: 95%;
+    min-height: 400px;
+    margin: 60px auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    /* adicionado */
+    padding: 40px;
+    box-sizing: border-box;
+}
+
+.descricao .titulo {
+    width: 95%;
+    /* alterado de 100% para 95% */
+    height: 50px;
+    display: flex;
+    align-items: center;
+    color: white;
+    font-family: "Archivo Black", sans-serif;
+    font-size: 40px;
+}
+
+.descricao .texto {
+    width: 100%;
+    height: 200px;
+    display: flex;
+    margin: 30px auto;
+}
+
+.descricao .texto form {
+    width: 100%;
+    height: 100%;
+}
+
+.descricao .texto textarea {
+    width: 100%;
+    height: 100%;
+    resize: none;
+    padding: 20px;
+    border: none;
+    box-sizing: border-box;
+    outline: none;
+    background-color: var(--bg-sec);
+    color: var(--text-main);
+    font-family: var(--font-text);
+    font-size: 16px;
+    line-height: 1.6;
+}
+
+/*===================================
+    5. FOOTER
+====================================*/
+
+.footer {
+    width: 100%;
+    height: auto;
+    background-color: var(--bg-sec);
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    padding: 60px 80px 0;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    margin-top: 60px;
+}
+
+.footer-top {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 40px;
+    padding-bottom: 40px;
+}
+
+.footer-brand {
+    max-width: 320px;
+}
+
+.footer-logo {
+    font-family: var(--font-title);
+    font-size: 28px;
+    color: var(--text-main);
+    margin: 0 0 12px;
+}
+
+.footer-tagline {
+    font-family: var(--font-text);
+    font-size: 14px;
+    color: var(--text-muted);
+    line-height: 1.6;
+    margin: 0;
+}
+
+.footer-col {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    min-width: 160px;
+}
+
+.footer-col h3 {
+    font-family: var(--font-text);
+    font-size: 14px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--text-main);
+    margin: 0 0 8px;
+}
+
+.footer-col a {
+    font-family: var(--font-text);
+    font-size: 15px;
+    color: var(--text-muted);
+    text-decoration: none;
+    transition: color 0.1s ease;
+    width: fit-content;
+}
+
+.footer-col a:hover {
+    color: var(--accent);
+}
+
+.footer-bottom {
+    width: 100%;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    padding: 20px 0;
+    display: flex;
+    justify-content: center;
+}
+
+.footer-bottom p {
+    font-family: var(--font-text);
+    font-size: 13px;
+    color: var(--text-muted);
+    margin: 0;
+}
+
+.footer-brand a {
+    text-decoration: none;
+}
+
+/* ==========================================
+   DIVs Mobile
+========================================== */
+
+.linha-mobile {
+    display: none;
+}
+
+.links-mobile {
+    display: none;
+}
+
+.cover-mobile {
+    width: 100%;
+    height: 69px;
+    display: none;
+}
+
+.nome-mobile {
+    display: none;
+}
+
+.info-mobile {
+    display: none;
+}
+
+.info .editar-mobile {
+    display: none;
+}
+
+.editar-mobile {
+    display: none;
+}
+
+.editar-mobile H1 {
+    display: none;
+}
+
+.corpo-mobile {
+    display: none;
+}
+
+.corpo-mobile .titulo-mobile {
+    display: none;
+}
+
+.corpo-mobile .publicacao-mobile {
+    display: none;
+}
+
+.descricao-mobile {
+    display: none;
+}
+
+.descricao-mobile .title-mobile {
+    display: none;
+}
+
+.descricao-mobile .texto-mobile {
+    display: none;
+}
+
+.footer-mobile {
+    display: none;
+}
+
+/*====================================
+    RESPONSIVIDADE
+====================================*/
+
+@media screen and (max-width: 1024px) {
+
+    html,
+    body {
+        width: 100%;
+        margin: 0;
+        padding: 0;
+        overflow-x: hidden;
+    }
+
+    /* Banner */
+    .banner {
+        width: 100%;
+        height: 250px;
+    }
+
+    .banner img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: center;
+    }
+
+    .linha {
+        display: none;
+    }
+
+    .linha-mobile {
+        display: flex;
+        width: 100%;
+        height: 60px;
+        background-color: #161A1F;
+        justify-content: center;
+        align-items: center;
+        position: relative;
+    }
+
+    .linha-mobile .foto-mobile {
+        display: flex;
+        width: 200px;
+        height: 200px;
+        background-color: white;
+        border-radius: 100%;
+        position: absolute;
+        border: 2px solid white;
+        z-index: 10;
+    }
+
+    .foto-mobile img {
+        width: 100%;
+        height: 100%;
+        border-radius: 100%;
+    }
+
+    .cover {
+        display: none;
+    }
+
+    .cover-mobile {
+        display: flex;
+        width: 100%;
+        height: 72px;
+    }
+
+    .links {
+        display: none;
+    }
+
+    /* Links mobile aparecem abaixo da foto */
+    .links-mobile {
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 16px;
+        padding: 20px 20px 20px;
+    }
+
+    .links-mobile a {
+        font-size: 25px;
+        text-decoration: none;
+        color: white;
+        font-size: 20px;
+        font-family: "Archivo Black", sans-serif;
+        font-weight: bold;
+        padding: 6px 10px;
+        border-bottom: 2px solid transparent;
+        transition: border-color 0.2s;
+    }
+
+    .links-mobile a:hover {
+        border-bottom: 2px solid #6366F1;
+        color: #6366F1;
+        transition: color(0.5s);
+    }
+
+    .cover {
+        display: none;
+    }
+
+    .cover-mobile {
+        display: flex;
+    }
+
+    .nome-mobile {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin: 0 auto;
+        color: white;
+        font-size: 30px;
+        font-family: "Archivo Black", sans-serif;
+        width: 50%;
+        height: 70px;
+    }
+
+    .info-mobile {
+        display: flex;
+        width: 70%;
+        height: 30px;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto;
+        font-family: "Inter", sans-serif;
+        color: white;
+    }
+
+    .editar-mobile {
+        display: flex;
+        width: 60%;
+        height: 70px;
+        background-color: #6366F1;
+        margin: 20px auto;
+        justify-content: center;
+        align-items: center;
+        font-family: "Archivo Black", sans-serif;
+        color: white;
+        font-size: 26px;
+        text-decoration: none;
+    }
+
+    .editar-mobile H1 {
+        display: flex;
+        text-decoration: none;
+    }
+
+    a:has(.editar-mobile) {
+        border-bottom: none !important;
+        text-decoration: none;
+    }
+
+    .corpo {
+        display: none;
+    }
+
+    .corpo-mobile {
+        display: flex;
+        width: 90%;
+        min-height: 600px;
+        height: auto;
+        margin: 70px auto;
+        display: flex;
+        flex-direction: column;
+        flex: wrap;
+        gap: 40px;
+        box-sizing: border-box;
+    }
+
+    .corpo-mobile .titulo-mobile {
+        display: flex;
+        width: 100%;
+        height: 70px;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-family: "Archivo Black", sans-serif;
+        font-size: 20px;
+    }
+
+    .corpo-mobile .publicacao-mobile {
+        display: flex;
+        width: 90%;
+        height: 600px;
+        margin: 0 auto;
+    }
+
+    .publicacao-mobile img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: center;
+    }
+
+    .descricao-mobile {
+        display: flex;
+        width: 90%;
+        height: 500px;
+        margin: 0 auto;
+        flex-direction: column;
+    }
+
+    .descricao-mobile .title-mobile {
+        display: flex;
+        width: 100%;
+        height: 70px;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-family: "Archivo Black", sans-serif;
+        font-size: 30px;
+    }
+
+    .descricao-mobile .texto-mobile {
+        display: flex;
+        width: 100%;
+        height: 430px;
+        margin: 15px auto;
+    }
+
+    .texto-mobile form {
+        width: 100%;
+        height: 100%;
+    }
+
+    .texto-mobile textarea {
+        width: 100%;
+        height: 100%;
+        box-sizing: border-box;
+        resize: none;
+        padding: 20px;
+        border: none;
+        outline: none;
+        background-color: var(--bg-sec);
+        color: var(--text-main);
+        font-family: var(--font-text);
+        font-size: 16px;
+        line-height: 1.6;
+    }
+}
+
+@media screen and (max-width:700px) {
+    .editar-mobile {
+        font-size: 20px;
+    }
+
+    .titulo-mobile h1 {
+        font-size: 25px;
+    }
+}
+
+
+@media screen and (max-width:450px) {
+    .editar-mobile {
+        font-size: 14px;
+    }
+
+    .titulo-mobile h1 {
+        font-size: 20px;
+    }
+
+    .title-mobile h1 {
+        font-size: 30px;
+    }
+}

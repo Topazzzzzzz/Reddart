@@ -1,0 +1,221 @@
+:root {
+    --bg-main: #0C0C11;
+    --bg-sec: #161A1F;
+    --accent: #6366F1;
+    --accent-hover: #4f46e5;
+    --text-main: #ffffff;
+    --text-muted: #a1a1aa;
+    --font-title: "Archivo Black", sans-serif;
+    --font-text: "Inter", sans-serif;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background: linear-gradient(135deg, #000000, #0c0c11, #111113);
+    color: var(--text-main);
+    font-family: var(--font-text);
+    min-height: 100vh;
+    padding: 40px 20px;
+}
+
+.edit-container {
+    max-width: 700px;
+    margin: 0 auto;
+    background-color: var(--bg-sec);
+    padding: 35px;
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.edit-header {
+    margin-bottom: 30px;
+}
+
+.btn-back {
+    color: var(--accent);
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 15px;
+}
+
+.btn-back:hover {
+    text-decoration: underline;
+}
+
+.edit-header h1 {
+    font-family: var(--font-title);
+    font-size: 26px;
+    color: var(--text-main);
+    margin-bottom: 8px;
+}
+
+.edit-header p {
+    color: var(--text-muted);
+    font-size: 14px;
+}
+
+/* FORMULÁRIO */
+.edit-form {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.form-group label {
+    font-weight: 600;
+    font-size: 14px;
+    color: var(--text-main);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.file-input {
+    display: none;
+}
+
+/* BANNER PREVIEW */
+.banner-preview-box {
+    position: relative;
+    width: 100%;
+    height: 160px;
+    border-radius: 6px;
+    overflow: hidden;
+    background-color: #000;
+}
+
+.banner-preview-box img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.upload-badge {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    background-color: rgba(0, 0, 0, 0.75);
+    color: white;
+    padding: 8px 14px;
+    border-radius: 4px;
+    font-size: 13px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.upload-badge:hover {
+    background-color: var(--accent);
+}
+
+/* AVATAR PREVIEW */
+.avatar-preview-box {
+    position: relative;
+    width: 110px;
+    height: 110px;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 3px solid var(--accent);
+}
+
+.avatar-preview-box img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.upload-badge-avatar {
+    position: absolute;
+    inset: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 20px;
+    opacity: 0;
+    cursor: pointer;
+    transition: opacity 0.2s;
+}
+
+.avatar-preview-box:hover .upload-badge-avatar {
+    opacity: 1;
+}
+
+/* INPUTS DE TEXTO */
+input[type="text"],
+textarea {
+    width: 100%;
+    background-color: #0c0c11;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 4px;
+    padding: 12px 16px;
+    color: var(--text-main);
+    font-family: var(--font-text);
+    font-size: 14px;
+    transition: border-color 0.2s;
+}
+
+input[type="text"]:focus,
+textarea:focus {
+    outline: none;
+    border-color: var(--accent);
+}
+
+textarea {
+    resize: vertical;
+}
+
+/* BOTÕES */
+.form-actions {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 15px;
+    margin-top: 10px;
+}
+
+.btn-cancel {
+    color: var(--text-muted);
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.btn-cancel:hover {
+    color: var(--text-main);
+}
+
+.btn-salvar {
+    background-color: var(--accent);
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    font-family: var(--font-title);
+    font-size: 14px;
+    cursor: pointer;
+    border-radius: 4px;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    transition: background-color 0.2s, box-shadow 0.2s;
+}
+
+.btn-salvar:hover {
+    background-color: var(--accent-hover);
+    box-shadow: 0 4px 14px rgba(99, 102, 241, 0.4);
+}

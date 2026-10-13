@@ -1,0 +1,425 @@
+/* ==========================================
+   1. CONFIGURAÇÕES GERAIS E VARIÁVEIS
+========================================== */
+:root {
+    --bg-main: #0C0C11;
+    --bg-sec: #161A1F;
+    --accent: #6366F1;
+    --accent-hover: #4f46e5;
+    --text-main: #ffffff;
+    --text-muted: #a1a1aa;
+    --font-title: "Archivo Black", sans-serif;
+    --font-text: "Inter", sans-serif;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background: linear-gradient(135deg, #000000, #0c0c11, #111113);
+    color: var(--text-main);
+    font-family: var(--font-text);
+    min-height: 100vh;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+/* ==========================================
+   2. HERO E HEADER DO PERFIL
+========================================== */
+.profile-header {
+    width: 100%;
+    position: relative;
+    background-color: var(--bg-sec);
+}
+
+.banner-container {
+    width: 100%;
+    height: 320px;
+    overflow: hidden;
+}
+
+.banner-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+}
+
+.profile-nav-bar {
+    background-color: var(--bg-sec);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.nav-content {
+    display: flex;
+    align-items: center;
+    position: relative;
+    height: 70px;
+}
+
+/* Foto de Perfil com sobreposição no Banner */
+.avatar-wrapper {
+    position: absolute;
+    top: -80px;
+    left: 20px;
+    width: 160px;
+    height: 160px;
+    border-radius: 50%;
+    border: 3px solid #ffffff;
+    overflow: hidden;
+    background-color: var(--bg-sec);
+    z-index: 5;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.6);
+}
+
+.avatar-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* Navegação da página */
+.profile-menu {
+    display: flex;
+    gap: 30px;
+    margin-left: 200px;
+}
+
+.profile-menu a {
+    color: var(--text-main);
+    text-decoration: none;
+    font-family: var(--font-title);
+    font-size: 16px;
+    padding: 22px 5px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: color 0.2s ease, border-bottom 0.2s ease;
+    border-bottom: 3px solid transparent;
+}
+
+.profile-menu a:hover,
+.profile-menu a.active {
+    color: var(--accent);
+    border-bottom-color: var(--accent);
+}
+
+/* ==========================================
+   3. INFORMAÇÕES DO USUÁRIO & BOTÕES
+========================================== */
+.profile-main {
+    padding-top: 40px;
+    padding-bottom: 60px;
+}
+
+.profile-info-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 40px;
+    gap: 20px;
+}
+
+.user-name {
+    font-family: var(--font-title);
+    font-size: 36px;
+    color: var(--text-main);
+    line-height: 1.1;
+}
+
+.user-meta {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    color: var(--text-muted);
+    font-size: 15px;
+    margin-top: 8px;
+}
+
+.user-meta .dot {
+    color: rgba(255, 255, 255, 0.2);
+}
+
+.btn-edit {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    background-color: var(--accent);
+    color: var(--text-main);
+    padding: 12px 28px;
+    text-decoration: none;
+    font-family: var(--font-title);
+    font-size: 16px;
+    transition: background-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.btn-edit:hover {
+    background-color: var(--accent-hover);
+    box-shadow: 0 6px 16px rgba(99, 102, 241, 0.4);
+}
+
+/* ==========================================
+   4. ESTRUTURA GRID (PUBLICAÇÕES E BIO)
+========================================== */
+.profile-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 35px;
+}
+
+.profile-section {
+    background-color: var(--bg-sec);
+    padding: 30px;
+    border-radius: 4px;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 25px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.section-header h2 {
+    font-family: var(--font-title);
+    font-size: 22px;
+    color: var(--text-main);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.see-all {
+    color: var(--accent);
+    text-decoration: none;
+    font-family: var(--font-text);
+    font-weight: 600;
+    font-size: 14px;
+}
+
+.see-all:hover {
+    text-decoration: underline;
+}
+
+/* Cards das Publicações */
+.posts-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 20px;
+}
+
+.post-card {
+    position: relative;
+    aspect-ratio: 1 / 1;
+    overflow: hidden;
+    background-color: #000;
+}
+
+.post-card img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.post-card:hover img {
+    transform: scale(1.15);
+}
+
+.post-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.85) 0%, transparent 100%);
+    opacity: 0;
+    display: flex;
+    align-items: flex-end;
+    padding: 16px;
+    transition: opacity 0.3s ease;
+}
+
+.post-card:hover .post-overlay {
+    opacity: 1;
+}
+
+.post-overlay span {
+    color: var(--text-main);
+    font-family: var(--font-text);
+    font-size: 16px;
+    font-weight: 600;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* Biografia (Sobre Mim) */
+.bio-content p {
+    color: var(--text-main);
+    font-size: 15px;
+    line-height: 1.7;
+    word-break: break-word;
+}
+
+/* Sem publicações */
+.empty-state {
+    text-align: center;
+    padding: 40px 10px;
+}
+
+.icon-empty {
+    font-size: 40px;
+    color: var(--text-muted);
+    margin-bottom: 15px;
+}
+
+.empty-state p {
+    color: var(--text-muted);
+    margin-bottom: 15px;
+}
+
+.btn-primary {
+    display: inline-block;
+    background-color: var(--accent);
+    color: white;
+    padding: 10px 20px;
+    text-decoration: none;
+    font-family: var(--font-title);
+    font-size: 14px;
+}
+
+/* ==========================================
+   5. FOOTER
+========================================== */
+.footer {
+    width: 100%;
+    background-color: var(--bg-sec);
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    padding: 60px 0 0;
+    margin-top: 60px;
+}
+
+.footer-content {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 40px;
+    padding-bottom: 40px;
+}
+
+.footer-brand {
+    max-width: 320px;
+}
+
+.footer-logo {
+    font-family: var(--font-title);
+    font-size: 28px;
+    color: var(--text-main);
+    margin-bottom: 10px;
+}
+
+.footer-brand p {
+    font-size: 14px;
+    color: var(--text-muted);
+}
+
+.footer-col {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.footer-col h3 {
+    font-size: 14px;
+    font-weight: 600;
+    text-transform: uppercase;
+    color: var(--text-main);
+}
+
+.footer-col a {
+    color: var(--text-muted);
+    text-decoration: none;
+    font-size: 14px;
+    transition: color 0.2s;
+}
+
+.footer-col a:hover {
+    color: var(--accent);
+}
+
+.footer-bottom {
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    padding: 20px 0;
+    text-align: center;
+    font-size: 13px;
+    color: var(--text-muted);
+}
+
+/* ==========================================
+   6. RESPONSIVIDADE (MEDIA QUERIES)
+========================================== */
+
+/* Notebooks / Monitores Médios */
+@media screen and (max-width: 1024px) {
+    .profile-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Tablets e Celulares */
+@media screen and (max-width: 768px) {
+    .banner-container {
+        height: 180px;
+    }
+
+    .nav-content {
+        flex-direction: column;
+        height: auto;
+        padding-top: 55px;
+        padding-bottom: 15px;
+    }
+
+    .avatar-wrapper {
+        width: 110px;
+        height: 110px;
+        top: -55px;
+        left: 50%;
+        transform: translateX(-50%);
+    }
+
+    .profile-menu {
+        margin-left: 0;
+        gap: 15px;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    .profile-menu a {
+        padding: 8px 12px;
+        font-size: 14px;
+    }
+
+    .profile-info-header {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+
+    .user-meta {
+        justify-content: center;
+    }
+
+    .btn-edit {
+        width: 100%;
+    }
+}

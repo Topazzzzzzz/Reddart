@@ -1,0 +1,122 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+body {
+    background: #08080c;
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+.logo {
+    font-size: 2.5rem;
+    font-weight: 900;
+    letter-spacing: 2px;
+    color: #ffffff;
+    margin-bottom: 24px;
+    text-transform: uppercase;
+}
+
+/* CARD DE LOGIN */
+.admin-card {
+    width: 90%;
+    max-width: 420px;
+    background: #111118;
+    border: 1px solid #1f1f2e;
+    border-radius: 20px;
+    padding: 36px 30px;
+}
+
+/* ESTRUTURA DO FORMULÁRIO */
+.form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.input-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.input-group label {
+    font-size: 0.9rem;
+    color: #cccccc;
+}
+
+.input-group input {
+    width: 100%;
+    padding: 14px 16px;
+    border-radius: 10px;
+    border: 1px solid #1f1f2e;
+    background: #171722;
+    color: #ffffff;
+    font-size: 0.95rem;
+    outline: none;
+    transition: border-color 0.2s;
+}
+
+.input-group input::placeholder {
+    color: #555566;
+}
+
+.input-group input:focus {
+    border-color: #5542f6;
+}
+
+/* MENSAGEM DE ERRO */
+.msg-erro {
+    color: #ff4d4d;
+    background: rgba(255, 77, 77, 0.1);
+    border: 1px solid #ff4d4d;
+    padding: 10px;
+    border-radius: 8px;
+    font-size: 0.85rem;
+    text-align: center;
+    margin-bottom: 16px;
+}
+
+/* BOTÃO ENTRAR */
+.btn-admin {
+    width: 100%;
+    padding: 14px;
+    background: #5542f6;
+    color: #ffffff;
+    border: none;
+    border-radius: 10px;
+    font-size: 0.95rem;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 6px;
+    transition: background-color 0.2s;
+}
+
+.btn-admin:hover {
+    background: #4332d1;
+}
+
+/* LINK INFERIOR */
+.signup-text {
+    font-size: 0.85rem;
+    color: #808095;
+    text-align: center;
+    margin-top: 20px;
+}
+
+.signup-text a {
+    color: #5542f6;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.signup-text a:hover {
+    text-decoration: underline;
+}
