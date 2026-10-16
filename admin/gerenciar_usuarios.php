@@ -7,6 +7,17 @@ if (!isset($_SESSION['usuario_cargo']) || $_SESSION['usuario_cargo'] !== 2) {
     exit;
 }
 
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['limpar_todos_usuarios'])) {
+    $idAdmin = (int)$_SESSION['usuario_id'];
+    $stmtLimpar = $conn->prepare("DELETE FROM tblUsuario WHERE idUsuario != ?");
+    $stmtLimpar->bind_param("i", $idAdmin);
+    $stmtLimpar->execute();
+    $stmtLimpar->close();
+
+    header("Location: gerenciar_usuarios.php?msg=" . urlencode("Todos os usuários (exceto seu perfil) foram removidos!"));
+    exit;
+}
+
 $sql = "SELECT idUsuario, userFoto, userNome, userNick, userEmail, idCargo FROM tblUsuario";
 $resultado = $conn->query($sql);
 ?>
@@ -85,7 +96,15 @@ $resultado = $conn->query($sql);
             </tbody>
         </table>
 
-        <a href="home.php" class="btn-voltar">Voltar ao Painel</a>
+        <div style="display: flex; gap: 10px; margin-top: 20px;">
+            <a href="home.php" class="btn-voltar">Voltar ao Painel</a>
+
+            <form method="POST" action="" onsubmit="return confirm('Tem certeza absoluta que deseja EXCLUIR TODOS os usuários (exceto a sua própria conta)?');">
+                <button type="submit" name="limpar_todos_usuarios" class="btn-excluir" style="background-color: #ff4d4d; color: white; border: none; padding: 12px 20px; border-radius: 6px; cursor: pointer; font-weight: bold;">
+                    Excluir Todos os Usuários
+                </button>
+            </form>
+        </div>
     </div>
 
     <div id="modalEditar" class="modal">

@@ -7,6 +7,15 @@ if (!isset($_SESSION['usuario_cargo']) || $_SESSION['usuario_cargo'] !== 2) {
     exit;
 }
 
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['limpar_todas_publicacoes'])) {
+    $stmtLimpar = $conn->prepare("DELETE FROM tblPublicacoes");
+    $stmtLimpar->execute();
+    $stmtLimpar->close();
+
+    header("Location: gerenciar_publicacoes.php?msg=" . urlencode("Todas as publicações foram removidas com sucesso!"));
+    exit;
+}
+
 $sql = "SELECT p.idPublicacao, p.idUsuario, p.pubHora, p.pubLink, p.pubLegenda, p.idGenero, p.pubCurtidas, u.userNome, u.userNick 
         FROM tblPublicacoes p 
         LEFT JOIN tblUsuario u ON p.idUsuario = u.idUsuario 
@@ -87,7 +96,15 @@ $resultado = $conn->query($sql);
             </tbody>
         </table>
 
-        <a href="home.php" class="btn-voltar">Voltar ao Painel</a>
+        <div style="display: flex; gap: 10px; margin-top: 20px;">
+            <a href="home.php" class="btn-voltar">Voltar ao Painel</a>
+
+            <form method="POST" action="" onsubmit="return confirm('Tem certeza absoluta que deseja EXCLUIR TODAS as publicações? Esta ação não pode ser desfeita.');">
+                <button type="submit" name="limpar_todas_publicacoes" class="btn-excluir" style="background-color: #ff4d4d; color: white; border: none; padding: 12px 20px; border-radius: 6px; cursor: pointer; font-weight: bold;">
+                    Excluir Todas as Publicações
+                </button>
+            </form>
+        </div>
     </div>
 
     <div id="modalEditar" class="modal">
