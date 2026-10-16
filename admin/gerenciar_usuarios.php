@@ -17,6 +17,8 @@ $resultado = $conn->query($sql);
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>REDDART - Gerenciar Usuários</title>
     <link rel="stylesheet" href="../css/gerenciar.css">
+    <link rel="icon" type="image/jpeg" href="../img/logo.jpg">
+    <link rel="shortcut icon" type="image/jpeg" href="../img/logo.jpg">
 </head>
 <body>
 
@@ -42,9 +44,22 @@ $resultado = $conn->query($sql);
             </thead>
             <tbody>
                 <?php while ($user = $resultado->fetch_assoc()): ?>
+                    <?php 
+                        $foto = $user['userFoto'];
+                        if (!empty($foto)) {
+                            if (!str_starts_with($foto, 'http') && !str_starts_with($foto, '../')) {
+                                $foto = '../' . $foto;
+                            }
+                        } else {
+                            $foto = '../uploads/usuNovoPerfil.jpg';
+                        }
+                    ?>
                     <tr>
                         <td>
-                            <img src="<?php echo !empty($user['userFoto']) ? htmlspecialchars($user['userFoto']) : 'https://via.placeholder.com/40'; ?>" class="avatar-img">
+                            <img src="<?php echo htmlspecialchars($foto); ?>" 
+                                 alt="Avatar" 
+                                 class="avatar-img" 
+                                 onerror="this.onerror=null;this.src='../uploads/usuNovoPerfil.jpg';">
                         </td>
                         <td>
                             <strong><?php echo htmlspecialchars($user['userNome']); ?></strong><br>

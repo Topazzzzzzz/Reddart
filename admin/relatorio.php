@@ -8,6 +8,15 @@ if (!isset($_SESSION['usuario_cargo']) || (int)$_SESSION['usuario_cargo'] !== 2)
     exit;
 }
 
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['limpar_todos_logs'])) {
+    $stmtLimpar = $conn->prepare("DELETE FROM tblLogs");
+    $stmtLimpar->execute();
+    $stmtLimpar->close();
+
+    header("Location: relatorio.php?msg=" . urlencode("Todos os registros de logs foram limpos com sucesso!"));
+    exit;
+}
+
 $sql = "SELECT l.idLog, l.idUsuario, l.logEmail, l.logStatus, l.logIpOrigem, l.logNavegador, l.logdataHora, 
                u.userNome, u.userNick 
         FROM tblLogs l 
@@ -26,6 +35,8 @@ $resultado = $conn->query($sql);
     <title>REDDART - Relatório de Acessos</title>
     
     <link rel="stylesheet" href="../css/relatorio.css">
+    <link rel="icon" type="image/jpeg" href="../img/logo.jpg">
+    <link rel="shortcut icon" type="image/jpeg" href="../img/logo.jpg">
 </head>
 
 <body>
@@ -34,6 +45,10 @@ $resultado = $conn->query($sql);
         <h1 class="logo-principal">REDDART</h1>
         <span class="etiqueta-admin">AUDITORIA DE SEGURANÇA</span>
         <h2 class="titulo-pagina">Relatório de Acessos ao Sistema</h2>
+
+        <?php if (isset($_GET['msg'])): ?>
+            <p class="msg-sucesso" style="color: #4CAF50; margin-bottom: 15px; font-weight: bold;"><?php echo htmlspecialchars($_GET['msg']); ?></p>
+        <?php endif; ?>
 
         <table class="tabela-logs">
             <thead>
@@ -94,8 +109,16 @@ $resultado = $conn->query($sql);
             </tbody>
         </table>
 
-        <div class="area-botoes">
+        <div class="area-botoes" style="display: flex; gap: 10px; margin-top: 20px;">
             <a href="home.php" class="botao-voltar">Voltar ao Painel</a>
+            
+            <?php if ($resultado && $resultado->num_rows > 0): ?>
+                <form method="POST" action="" onsubmit="return confirm('Tem certeza absoluta que deseja EXCLUIR TODOS os registros de logs? Esta ação não pode ser desfeita.');">
+                    <button type="submit" name="limpar_todos_logs" class="btn-excluir" style="background-color: #ff4d4d; color: white; border: none; padding: 10px 18px; border-radius: 6px; cursor: pointer; font-weight: bold;">
+                        Limpar Todos os Logs
+                    </button>
+                </form>
+            <?php endif; ?>
         </div>
     </div>
 
