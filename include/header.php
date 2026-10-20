@@ -138,6 +138,12 @@ $bannerAtual = !empty($usuario['userBanner']) ? $usuario['userBanner'] : 'upload
                 <span>Notificações</span>
             </button>
 
+            <a href="suporte.php" class="config_option">
+                <i class="fa-solid fa-user"></i>
+                <span>Contato e Suporte</span>
+            </a>
+
+
             <a href="login.php" class="config_option logout">
                 <i class="fa-solid fa-right-from-bracket"></i>
                 <span>Logout</span>
