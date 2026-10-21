@@ -237,14 +237,14 @@ main {
 .search {
     display: flex;
     align-items: center;
-    background-color: #ffffff06;
+    background-color: #ff000006;
     width: 100%;
     max-width: 600px;
     height: 48px;
     border-radius: 20px;
     padding: 5px 15px;
     color: #ffffff;
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.67);
 }
 
 #SearchInput {
@@ -1189,8 +1189,8 @@ body.dark .modal-stats .stat-btn:hover {
     flex-shrink: 0;
     padding: 8px 18px;
     background: #090d16;
-    color: #94a3b8;
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: #f2f3f5;
+    border: 1px solid rgba(255, 255, 255, 0.67);
     border-radius: 20px;
     text-decoration: none;
     font-size: 13px;
