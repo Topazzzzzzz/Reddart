@@ -291,6 +291,25 @@ document.addEventListener("DOMContentLoaded", () => {
                 contador.innerText = "0";
             }
 
+            // Sincroniza o ícone de coração preenchido/vazio dentro do modal ao abrir
+            const elementoFeed = document.getElementById("curtidas-" + idPub);
+            const cardOrigem = elementoFeed ? elementoFeed.closest('.card, .media-card') : null;
+            const iconeModal = document.querySelector('#btnCurtirModal i');
+            if (cardOrigem && iconeModal) {
+                const iconeCard = cardOrigem.querySelector('.fa-heart');
+                if (iconeCard) {
+                    if (iconeCard.classList.contains('fa-solid')) {
+                        iconeModal.classList.remove('fa-regular');
+                        iconeModal.classList.add('fa-solid', 'curtido');
+                        iconeModal.style.color = '#ff3366';
+                    } else {
+                        iconeModal.classList.remove('fa-solid', 'curtido');
+                        iconeModal.classList.add('fa-regular');
+                        iconeModal.style.color = '';
+                    }
+                }
+            }
+
             const favoritos = obterFavoritos();
             const idAtual = normalizarId(previewImage.dataset.id);
             const itemSalvo = favoritos.find(item =>
@@ -309,7 +328,6 @@ document.addEventListener("DOMContentLoaded", () => {
                 }
             }
 
-            // Pasta atual do item (só para referência futura)
             previewModal.classList.add("show");
         }
     };
@@ -406,6 +424,7 @@ function curtir(event, idPublicacao) {
                     }
                 }
 
+                // Atualiza o coração no Feed/Card
                 const card = elementoFeed ? elementoFeed.closest('.card, .media-card') : null;
                 if (card) {
                     const coracaoIcon = card.querySelector('.fa-heart');
@@ -413,9 +432,27 @@ function curtir(event, idPublicacao) {
                         if (data.curtiu) {
                             coracaoIcon.classList.remove('fa-regular');
                             coracaoIcon.classList.add('fa-solid', 'curtido');
+                            coracaoIcon.style.color = '#ff3366'; // Cor vermelha/rosa de destaque
                         } else {
                             coracaoIcon.classList.remove('fa-solid', 'curtido');
                             coracaoIcon.classList.add('fa-regular');
+                            coracaoIcon.style.color = '';
+                        }
+                    }
+                }
+
+                // Atualiza o coração no Modal de Visualização (se estiver aberto para este post)
+                if (String(idPostAtualModal) === String(idPublicacao)) {
+                    const coracaoModalIcon = document.querySelector('#btnCurtirModal i');
+                    if (coracaoModalIcon) {
+                        if (data.curtiu) {
+                            coracaoModalIcon.classList.remove('fa-regular');
+                            coracaoModalIcon.classList.add('fa-solid', 'curtido');
+                            coracaoModalIcon.style.color = '#ff3366';
+                        } else {
+                            coracaoModalIcon.classList.remove('fa-solid', 'curtido');
+                            coracaoModalIcon.classList.add('fa-regular');
+                            coracaoModalIcon.style.color = '';
                         }
                     }
                 }
@@ -451,7 +488,6 @@ function alternarIconeSalvar() {
 
     const idN = normalizarId(cardData.id);
 
-    // Já salvo? Remove direto. Novo? Balão de pastas colado ao botão salvar.
     if (itemJaFavoritado(idN)) {
         alternarFavorito(cardData);
         definirIconeBookmark(btnIcon, false);
@@ -502,7 +538,6 @@ function alternarFavorito(cardData) {
    ========================================================================== */
 
 function obterPastasUsuario() {
-    // Sem pastas padrão: só as que a pessoa criar
     try {
         const custom = JSON.parse(localStorage.getItem('minhasPastas')) || [];
         return custom.filter(n => n && String(n).trim() !== '');
@@ -531,7 +566,6 @@ function escaparAttr(s) {
     return String(s ?? '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 }
 
-/* Balão de pastas ancorado ao botão favoritar (só abre ao clicar nele) */
 function fecharBalaoPastas() {
     const b = document.getElementById('favBalloon');
     if (b) b.remove();
@@ -574,7 +608,6 @@ function abrirBalaoPastas(anchor, cardData, aoEscolher) {
         </form>`;
     document.body.appendChild(balao);
 
-    // Posiciona o balão colado ao botão (embaixo; se não couber, em cima)
     const r = anchor.getBoundingClientRect();
     const bw = 250;
     const left = Math.min(Math.max(8, r.left + r.width / 2 - bw / 2), window.innerWidth - bw - 8);
@@ -646,7 +679,6 @@ document.addEventListener('click', function (e) {
 
     const idN = normalizarId(cardData.id);
 
-    // Já favoritado? Remove direto. Novo? Balão de pastas colado ao botão.
     if (itemJaFavoritado(idN)) {
         alternarFavorito(cardData);
         definirIconeBookmark(bookmark, false);
