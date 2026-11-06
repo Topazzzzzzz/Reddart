@@ -63,7 +63,7 @@ if ($resPublicacoes) {
     <title> Galeria | ReddArt </title>
 
     <!-- Estilos Personalizados -->
-    <link rel="stylesheet" href="css/Galeria.css">
+    <link rel="stylesheet" href="css/galeria.css">
 
     <!-- Google Fonts: Archivo Black e Inter -->
     <link rel="preconnect" href="https://fonts.googleapis.com">

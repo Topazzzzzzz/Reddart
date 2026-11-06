@@ -4,20 +4,7 @@ include_once 'include/header.php';
 $termoBusca = trim($_GET['busca'] ?? '');
 $generoFiltro = isset($_GET['genero']) ? intval($_GET['genero']) : null;
 ?>
-    <main>
-        <link rel="stylesheet" href="css/index.css">
-        <!-- TOP BAR (Apenas com o botão Dark/Light) -->
-        <div class="top-bar top-bar-end">
-            <div class="button_dn">
-                <input type="checkbox" id="chk" class="checkbox">
-                <label class="label" for="chk">
-                    <i class="fas fa-moon"></i>
-                    <i class="fas fa-sun"></i>
-                    <div class="ball"></div>
-                </label>
-            </div>
-        </div>
-
+    <main id="conteudo" tabindex="-1">
         <!-- BANNER DE DESTAQUE -->
         <div class="banner-container">
             <div class="banner-card">
