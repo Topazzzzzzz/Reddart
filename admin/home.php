@@ -29,8 +29,8 @@ if (!isset($_SESSION['usuario_cargo'])) {
             <p class="subtitulo">Você possui acesso de administrador ao sistema.</p>
 
             <ul class="admin-menu">
-                <li><a href="gerenciar_usuarios.php"> Gerenciar Usuários</a></li>
-                <li><a href="gerenciar_publicacoes.php"> Configurações do Sistema</a></li>
+                <li><a href="gerenciarUsuarios.php"> Gerenciar Usuários</a></li>
+                <li><a href="itensSite.php"> Configurações do Sistema</a></li>
                 <li><a href="relatorio.php"> Relatórios de Acesso</a></li>
             </ul>
         <?php else: ?>
