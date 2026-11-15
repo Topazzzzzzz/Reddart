@@ -13,8 +13,8 @@ include_once 'include/header.php';
                 <div class="banner-card">
                     <img src="<?php echo htmlspecialchars($bannerAtual ?? 'img/placeholder.jpg'); ?>" alt="Banner Favoritos">
                     <div class="banner-info">
-                        <span class="banner-badge">Salvos</span>
-                        <h2>Salvos</h2>
+                        <span class="banner-badge">FAVORITOS</span>
+                        <h2>Favoritos</h2>
                         <p>Aqui ficam todas as coisas que você salvou para não perder de vista.</p>
                     </div>
                 </div>
@@ -45,7 +45,7 @@ include_once 'include/header.php';
             <!-- CONTEÚDO -->
             <div class="section-container salvos-container">
                 <div class="section-header fav-section-title">
-                    <h3><span class="fav-star">★</span> Minhas Imagens Salvas</h3>
+                    <h3><span class="fav-star">★</span> Minhas Salvas</h3>
                     <span class="fav-count-hint" id="favCountHint"></span>
                 </div>
 

@@ -11,14 +11,13 @@ if (!isset($_SESSION['idUsuario'])) {
 $idUsuarioLogado = $_SESSION['idUsuario'];
 
 // Página de resultado personalizada (substitui o alert nativo do navegador)
-function mostrarResultado($tipo, $titulo, $mensagem, $destino, $textoBotao, $autoSegundos = 0)
-{
+function mostrarResultado($tipo, $titulo, $mensagem, $destino, $textoBotao, $autoSegundos = 0) {
     $sucesso = ($tipo === 'sucesso');
     $icone = $sucesso ? 'fa-solid fa-circle-check' : 'fa-solid fa-circle-xmark';
     $destinoAttr = htmlspecialchars($destino, ENT_QUOTES, 'UTF-8');
     $auto = ($sucesso && $autoSegundos > 0)
         ? '<div class="res-progress"><span style="animation-duration:' . intval($autoSegundos) . 's"></span></div>'
-        . '<script>setTimeout(function(){ window.location.href=' . json_encode($destino) . '; }, ' . (intval($autoSegundos) * 1000) . ');</script>'
+          . '<script>setTimeout(function(){ window.location.href=' . json_encode($destino) . '; }, ' . (intval($autoSegundos) * 1000) . ');</script>'
         : '';
     echo '<!DOCTYPE html>
 <html lang="pt-BR">
@@ -60,10 +59,10 @@ animation-name:resBar; animation-timing-function:linear; animation-fill-mode:for
 <h2>' . htmlspecialchars($titulo, ENT_QUOTES, 'UTF-8') . '</h2>
 <p>' . htmlspecialchars($mensagem, ENT_QUOTES, 'UTF-8') . '</p>
 <a class="res-btn primary" href="' . $destinoAttr . '">' . htmlspecialchars($textoBotao, ENT_QUOTES, 'UTF-8') . '</a>'
-        . ($sucesso
-            ? ''
-            : '<button class="res-btn ghost" onclick="window.history.back()">Voltar e tentar de novo</button>')
-        . $auto . '
+. ($sucesso
+    ? ''
+    : '<button class="res-btn ghost" onclick="window.history.back()">Voltar e tentar de novo</button>')
+. $auto . '
 </div>
 </body>
 </html>';
@@ -110,3 +109,4 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         mostrarResultado('erro', 'Nenhuma imagem selecionada', 'Escolha um arquivo de imagem antes de publicar.', 'adicionar.php', 'Escolher imagem');
     }
 }
+?>
