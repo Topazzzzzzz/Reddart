@@ -61,9 +61,10 @@ if ($resPublicacoes) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?php echo $nomeExibicao; ?> | ReddArt</title>
-
-    <link rel="stylesheet" href="css/perfil.css">
-
+    <link rel="icon" type="image/png" href="img/logo.png">
+    <link rel="stylesheet" href="css/headerTopo.css">
+    <link rel="stylesheet" href="css/perfil.css?v=2">
+    <link rel="stylesheet" href="css/footer.css">
     <!-- Fontes & Ícones -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -72,8 +73,9 @@ if ($resPublicacoes) {
 </head>
 
 <body>
+    <?php include_once 'include/headerTopo.php'; ?>
 
-    <!-- HERO DO PERFIL (BANNER E FOTO) -->
+    <!-- BANNER E FOTO DO PERFIL -->
     <header class="profile-header">
         <div class="banner-container">
             <img src="<?php echo $bannerPerfil; ?>" alt="Banner de <?php echo $nomeExibicao; ?>" class="banner-img">
@@ -85,58 +87,60 @@ if ($resPublicacoes) {
                     <img src="<?php echo $fotoPerfil; ?>" alt="Foto de <?php echo $nomeExibicao; ?>" class="avatar-img">
                 </div>
 
-                <nav class="profile-menu">
-                    <a href="perfil.php" class="active"><i class="fa-solid fa-user"></i> PERFIL</a>
-                    <a href="galeria.php"><i class="fa-solid fa-image"></i> GALERIA</a>
-                    <a href="#"><i class="fa-solid fa-layer-group"></i> COLEÇÕES</a>
-                    <a href="#"><i class="fa-solid fa-share-nodes"></i> REDES SOCIAIS</a>
+                <nav class="profile-menu" aria-label="Seções do perfil">
+                    <a href="perfil.php" class="active" aria-current="page"><i class="fa-solid fa-user"></i> Perfil</a>
+                    <a href="galeria.php"><i class="fa-solid fa-image"></i> Galeria</a>
+                    <a href="#"><i class="fa-solid fa-layer-group"></i> Coleções</a>
+                    <a href="#"><i class="fa-solid fa-share-nodes"></i> Redes sociais</a>
                 </nav>
             </div>
         </div>
     </header>
 
-    <!-- INFORMAÇÕES DO ARTISTA & BOTÃO DE AÇÃO -->
+    <!-- INFORMAÇÕES DO ARTISTA E BOTÃO DE AÇÃO -->
     <main class="container profile-main">
         <div class="profile-info-header">
             <div class="user-details">
                 <h1 class="user-name"><?php echo $nomeExibicao; ?></h1>
                 <div class="user-meta">
                     <span><i class="fa-solid fa-location-dot"></i> Brasil</span>
-                    <span class="dot">•</span>
                     <span><i class="fa-solid fa-calendar-day"></i> Entrou em 2026</span>
-                    <span class="dot">•</span>
-                    <span><i class="fa-solid fa-palette"></i> <b><?php echo $totalObras; ?></b> obras</span>
+                    <span><i class="fa-solid fa-palette"></i> <?php echo $totalObras; ?> obras</span>
                 </div>
             </div>
 
             <div class="user-actions">
-                <a href="editarPerfil.php" class="btn-edit"><i class="fa-solid fa-pen-to-square"></i> EDITAR PERFIL</a>
+                <a href="editarPerfil.php" class="btn-edit"><i class="fa-solid fa-pen-to-square"></i> Editar perfil</a>
             </div>
         </div>
 
-        <!-- CORPO PRINCIPAL: RECENTES & BIO -->
+        <!-- CORPO PRINCIPAL: RECENTES E BIO -->
         <div class="profile-grid">
 
-            <!-- SEÇÃO DE PUBLICAÇÕES RECENTES -->
+            <!-- PUBLICAÇÕES RECENTES -->
             <section class="profile-section posts-section">
                 <div class="section-header">
-                    <h2><i class="fa-solid fa-clock-rotate-left"></i> PUBLICAÇÕES RECENTES</h2>
+                    <h2><i class="fa-solid fa-clock-rotate-left"></i> Publicações recentes</h2>
                     <?php if (!empty($publicacoes)): ?>
-                        <a href="Galeria.php" class="see-all">Ver todas</a>
+                        <a href="galeria.php" class="see-all">Ver todas</a>
                     <?php endif; ?>
                 </div>
 
                 <?php if (!empty($publicacoes)): ?>
                     <div class="posts-grid">
                         <?php foreach ($publicacoes as $pub): ?>
-                            <div class="post-card">
+                            <article class="post-card">
                                 <a href="index.php?post=<?php echo $pub['id']; ?>">
-                                    <img src="<?php echo htmlspecialchars($pub['img']); ?>" alt="<?php echo htmlspecialchars($pub['titulo']); ?>">
-                                    <div class="post-overlay">
-                                        <span><?php echo htmlspecialchars($pub['titulo']); ?></span>
+                                    <div class="post-thumb">
+                                        <img src="<?php echo htmlspecialchars($pub['img']); ?>"
+                                             alt="<?php echo htmlspecialchars($pub['titulo']); ?>"
+                                             loading="lazy">
+                                    </div>
+                                    <div class="post-body">
+                                        <h3 class="post-title"><?php echo htmlspecialchars($pub['titulo']); ?></h3>
                                     </div>
                                 </a>
-                            </div>
+                            </article>
                         <?php endforeach; ?>
                     </div>
                 <?php else: ?>
@@ -148,10 +152,10 @@ if ($resPublicacoes) {
                 <?php endif; ?>
             </section>
 
-            <!-- SEÇÃO SOBRE MIM (BIO) -->
+            <!-- SOBRE MIM (BIO) -->
             <aside class="profile-section bio-section">
                 <div class="section-header">
-                    <h2><i class="fa-solid fa-id-card"></i> SOBRE MIM</h2>
+                    <h2><i class="fa-solid fa-id-card"></i> Sobre mim</h2>
                 </div>
                 <div class="bio-content">
                     <p><?php echo nl2br($descricao); ?></p>
@@ -162,35 +166,7 @@ if ($resPublicacoes) {
     </main>
 
     <!-- FOOTER DA APLICAÇÃO -->
-    <footer class="footer">
-        <div class="container footer-content">
-            <div class="footer-brand">
-                <a href="index.php">
-                    <h2 class="footer-logo">ReddArt</h2>
-                </a>
-                <p>Plataforma para compartilhamento e descoberta de artes digitais.</p>
-            </div>
-
-            <div class="footer-col">
-                <h3>Navegação</h3>
-                <a href="perfil.php">Perfil</a>
-                <a href="Galeria.php">Galeria</a>
-                <a href="#">Coleções</a>
-            </div>
-
-            <div class="footer-col">
-                <h3>Redes Sociais</h3>
-                <a href="#"><i class="fa-brands fa-instagram"></i> Instagram</a>
-                <a href="#"><i class="fa-brands fa-x-twitter"></i> Twitter / X</a>
-                <a href="#"><i class="fa-solid fa-globe"></i> Pixiv</a>
-            </div>
-        </div>
-
-        <div class="footer-bottom">
-            <p>&copy; 2026 ReddArt. Todos os direitos reservados.</p>
-        </div>
-    </footer>
-
+    <?php include_once 'include/footer.php'; ?>
 </body>
 
 </html>
