@@ -32,7 +32,7 @@ $paginaAtual = basename($_SERVER['PHP_SELF']);
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Reddart</title>
-
+    <link rel="icon" type="image/png" href="img/logo.png">
     <!-- CDN do FontAwesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="css/index.css?v=13">
@@ -70,14 +70,14 @@ $paginaAtual = basename($_SERVER['PHP_SELF']);
                 <li class="side-item <?php echo ($paginaAtual == 'index.php') ? 'active' : ''; ?>">
                     <a href="index.php">
                         <i class="fa-solid fa-house-chimney"></i>
-                        <span class="item_descricao">Home</span>
+                        <span class="item_descricao">Início</span>
                     </a>
                 </li>
 
                 <li class="side-item <?php echo ($paginaAtual == 'favoritos.php') ? 'active' : ''; ?>">
                     <a href="favoritos.php">
                         <i class="fa-regular fa-bookmark"></i>
-                        <span class="item_descricao">Bookmarks</span>
+                        <span class="item_descricao">Salvos</span>
                     </a>
                 </li>
 
@@ -148,7 +148,7 @@ $paginaAtual = basename($_SERVER['PHP_SELF']);
                 <span>Contato e Suporte</span>
             </a>
 
-            <a href="login.php" class="config_option logout">
+            <a href="logout.php" class="config_option logout">
                 <i class="fa-solid fa-right-from-bracket"></i>
                 <span>Logout</span>
             </a>
