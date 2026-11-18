@@ -2,18 +2,8 @@
 include_once 'include/header.php'; 
 ?>
 
-<main>
+<main id="conteudo" tabindex="-1">
     <link rel="stylesheet" href="css/fav.css?v=11">
-    <div class="top-bar top-bar-end">
-        <div class="button_dn">
-            <input type="checkbox" id="chk" class="checkbox">
-            <label class="label" for="chk">
-                <i class="fas fa-moon"></i>
-                <i class="fas fa-sun"></i>
-                <div class="ball"></div>
-            </label>
-        </div>
-    </div>
 
     <div class="fav-layout">
         <!-- COLUNA PRINCIPAL -->

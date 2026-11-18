@@ -37,7 +37,7 @@ $caminhoBannerAtual = !empty($usuario['userBanner']) ? htmlspecialchars($usuario
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Editar Perfil | ReddArt</title>
-    <link rel="icon" type="image/png" href="img/logo.png">
+
     <link rel="stylesheet" href="css/editarperfil.css">
 
     <!-- Fontes & Ícones -->
@@ -50,7 +50,7 @@ $caminhoBannerAtual = !empty($usuario['userBanner']) ? htmlspecialchars($usuario
 <body>
 
     <main class="edit-container">
-
+        
         <!-- CABEÇALHO DO FORMULÁRIO -->
         <div class="edit-header">
             <a href="perfil.php" class="btn-back"><i class="fa-solid fa-arrow-left"></i> Voltar ao Perfil</a>
@@ -120,5 +120,4 @@ $caminhoBannerAtual = !empty($usuario['userBanner']) ? htmlspecialchars($usuario
     </script>
 
 </body>
-
 </html>
