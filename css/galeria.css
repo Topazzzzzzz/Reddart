@@ -1,0 +1,71 @@
+/* CSS DO PERFIL 2 
+
+/* ==========================================
+   1. CONFIGURAÇÕES GERAIS E VARIÁVEIS
+ ========================================== */
+
+body {
+    background-color: #0E0E12;
+    margin: 0;
+    padding: 0;
+}
+
+:root {
+    --Background: #0C0C11;
+    --bg-sec: #161A1F;
+    --accent: #6366F1;
+    --accent-hover: #4f46e5;
+    --text-main: #ffffff;
+    --text-muted: #a1a1aa;
+    --font-title: "Archivo Black", sans-serif;
+    --font-text: "Inter", sans-serif;
+}
+
+
+/* Tipografia Utilitária */
+.archivo-black-regular {
+    font-family: "Archivo Black", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+}
+
+.prociono-regular {
+    font-family: "Prociono", serif;
+    font-weight: 400;
+    font-style: normal;
+}
+
+/* ==========================================
+   2. BANNER, FOTO DE PERFIL E LINKS
+========================================== */
+
+.banner {
+    width: 100%;
+    height: 320px;
+    background-color: green;
+}
+
+.banner img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.Header {
+    width: 100%;
+    height: 70px;
+    background-color: #161A1F;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.avatar {
+    width: 200px;
+    height: 200px;
+    background-color: green;
+    border-radius: 100px;
+    top: -50px;
+    border: 3px solid #ffffff;
+}

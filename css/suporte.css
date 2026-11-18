@@ -1,0 +1,440 @@
+/* ====================================
+   SUPORTE — Contato e suporte do Reddart
+   Mesmas cores do site (navy / indigo / azul).
+   O header superior fica em css/header-top.css
+   NOTA: neste projeto a classe body.dark = TEMA CLARO
+   ==================================== */
+
+.sup-page {
+    --sup-bg: #0C0C11;
+    --sup-card: #121218;
+    --sup-border: #1f1f2e;
+    --sup-border-hover: #0d0ac5;
+    --sup-text: #ffffff;
+    --sup-text-2: #d4d4d8;
+    --sup-muted: #8a8a9e;
+    --sup-accent-soft: rgba(37, 23, 158, .35);
+    --sup-accent-ink: #c7c9ff;
+    --sup-grad: linear-gradient(135deg, #25179e, #060235);
+
+    margin: 0;
+    background: var(--sup-bg);
+    color: var(--sup-text);
+    font-family: "Inter", sans-serif;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    -webkit-font-smoothing: antialiased;
+}
+
+.sup-page *,
+.sup-page *::before,
+.sup-page *::after {
+    box-sizing: border-box;
+}
+
+.sup-page h1,
+.sup-page h2,
+.sup-page p {
+    margin: 0;
+}
+
+.sup-page button {
+    font-family: inherit;
+}
+
+.sup-main {
+    flex: 1;
+}
+
+.sup-wrap {
+    max-width: 980px;
+    margin: 0 auto;
+    padding: 40px 20px 64px;
+    display: flex;
+    flex-direction: column;
+    gap: 48px;
+}
+
+.sup-h2 {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--sup-text);
+    margin-bottom: 16px;
+}
+
+/* ---------- TÍTULO ---------- */
+.sup-intro {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.sup-intro-ic {
+    width: 56px;
+    height: 56px;
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    font-size: 24px;
+    background: var(--sup-accent-soft);
+    color: var(--sup-accent-ink);
+}
+
+.sup-intro h1 {
+    font-family: "Archivo Black", sans-serif;
+    font-size: clamp(1.6rem, 4vw, 2.2rem);
+    line-height: 1.1;
+}
+
+.sup-intro p {
+    margin-top: 6px;
+    font-size: 14px;
+    color: var(--sup-muted);
+}
+
+/* ---------- CATEGORIAS ---------- */
+.sup-cats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 14px;
+}
+
+.sup-cat {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 16px;
+    text-align: left;
+    background: var(--sup-card);
+    border: 1px solid var(--sup-border);
+    border-radius: 14px;
+    color: var(--sup-text);
+    cursor: pointer;
+    transition: border-color .2s ease, background .2s ease;
+}
+
+.sup-cat:hover {
+    border-color: var(--sup-border-hover);
+}
+
+.sup-cat.active {
+    border-color: #3b82f6;
+    background: rgba(37, 99, 235, .12);
+    box-shadow: 0 0 12px rgba(37, 99, 235, .3);
+}
+
+.sup-cat-ic {
+    width: 44px;
+    height: 44px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    font-size: 18px;
+    background: var(--sup-accent-soft);
+    color: var(--sup-accent-ink);
+}
+
+.sup-cat-tx {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    line-height: 1.3;
+}
+
+.sup-cat-tx strong {
+    font-size: 15px;
+    font-weight: 600;
+}
+
+.sup-cat-tx small {
+    font-size: 12px;
+    color: var(--sup-muted);
+}
+
+.sup-cat-n {
+    flex-shrink: 0;
+    min-width: 26px;
+    padding: 2px 8px;
+    border-radius: 20px;
+    text-align: center;
+    font-size: 11px;
+    font-weight: 600;
+    background: #0f0d25;
+    border: 1px solid rgba(255, 255, 255, .08);
+    color: var(--sup-accent-ink);
+}
+
+/* ---------- FAQ ---------- */
+.sup-faq {
+    scroll-margin-top: 84px; /* altura do header superior + folga */
+}
+
+.sup-faq-head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 12px;
+}
+
+.sup-hint {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 12px;
+    color: var(--sup-muted);
+}
+
+.sup-reset {
+    background: none;
+    border: none;
+    padding: 0;
+    color: #93c5fd;
+    font-size: 12px;
+    cursor: pointer;
+    text-decoration: underline;
+}
+
+.sup-reset[hidden],
+.sup-item[hidden] {
+    display: none;
+}
+
+.sup-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.sup-item {
+    background: var(--sup-card);
+    border: 1px solid var(--sup-border);
+    border-radius: 14px;
+    overflow: hidden;
+    transition: border-color .2s ease;
+}
+
+.sup-item:hover,
+.sup-item.open {
+    border-color: var(--sup-border-hover);
+}
+
+.sup-q {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 18px 20px;
+    background: transparent;
+    border: none;
+    color: var(--sup-text);
+    text-align: left;
+    cursor: pointer;
+}
+
+.sup-q-tx {
+    font-size: 15px;
+    font-weight: 600;
+    line-height: 1.4;
+}
+
+.sup-chevron {
+    flex-shrink: 0;
+    font-size: 12px;
+    color: var(--sup-muted);
+    transition: transform .25s ease;
+}
+
+.sup-item.open .sup-chevron {
+    transform: rotate(180deg);
+}
+
+/* abre/fecha suave sem precisar medir altura */
+.sup-a {
+    display: grid;
+    grid-template-rows: 0fr;
+    transition: grid-template-rows .25s ease;
+}
+
+.sup-item.open .sup-a {
+    grid-template-rows: 1fr;
+}
+
+.sup-a-inner {
+    overflow: hidden;
+}
+
+.sup-a-inner p {
+    padding: 0 20px 20px;
+    max-width: 70ch;
+    font-size: 14px;
+    line-height: 1.65;
+    color: #a1a1aa;
+}
+
+.sup-a-inner strong {
+    color: var(--sup-text-2);
+}
+
+/* ---------- CONTATO ---------- */
+.sup-contact {
+    padding: 32px;
+    background: var(--sup-grad);
+    border: 1px solid rgba(255, 255, 255, .08);
+    border-radius: 18px;
+}
+
+.sup-contact-head h2 {
+    font-size: 22px;
+    font-weight: 700;
+    color: #fff;
+}
+
+.sup-contact-head p {
+    margin-top: 6px;
+    max-width: 60ch;
+    font-size: 14px;
+    line-height: 1.6;
+    color: #c4c6e8;
+}
+
+.sup-contact-grid {
+    margin-top: 22px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 12px;
+}
+
+.sup-mail {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px;
+    text-decoration: none;
+    background: rgba(9, 13, 22, .6);
+    border: 1px solid rgba(255, 255, 255, .1);
+    border-radius: 12px;
+    color: #fff;
+    transition: border-color .2s ease, background .2s ease;
+}
+
+.sup-mail:hover {
+    background: rgba(9, 13, 22, .85);
+    border-color: #3b82f6;
+}
+
+.sup-mail-ic {
+    width: 38px;
+    height: 38px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    background: rgba(37, 99, 235, .2);
+    color: #93c5fd;
+}
+
+.sup-mail-tx {
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.sup-mail-tx small {
+    font-size: 11px;
+    color: #a9acd6;
+}
+
+.sup-mail-tx strong {
+    font-size: 13px;
+    font-weight: 600;
+    overflow-wrap: anywhere;
+}
+
+/* ---------- FOCO VISÍVEL ---------- */
+.sup-page :is(.sup-cat, .sup-q, .sup-reset, .sup-mail):focus-visible {
+    outline: 2px solid #3b82f6;
+    outline-offset: 2px;
+}
+
+/* ====================================
+   TEMA CLARO (body.dark neste projeto)
+   ==================================== */
+body.dark.sup-page {
+    --sup-bg: #f4f4f5;
+    --sup-card: #ffffff;
+    --sup-border: rgba(0, 0, 0, .1);
+    --sup-border-hover: #4f46e5;
+    --sup-text: #18181b;
+    --sup-text-2: #3f3f46;
+    --sup-muted: #52525b;
+    --sup-accent-soft: rgba(37, 23, 158, .12);
+    --sup-accent-ink: #25179e;
+}
+
+body.dark .sup-cat,
+body.dark .sup-item {
+    box-shadow: 0 4px 18px rgba(0, 0, 0, .08);
+}
+
+body.dark .sup-cat.active {
+    background: rgba(37, 23, 158, .08);
+    border-color: #4f46e5;
+    box-shadow: 0 0 12px rgba(37, 23, 158, .2);
+}
+
+body.dark .sup-cat-n {
+    background: #ede9fe;
+    border-color: rgba(37, 23, 158, .2);
+    color: #25179e;
+}
+
+body.dark .sup-a-inner p {
+    color: #52525b;
+}
+
+body.dark .sup-reset {
+    color: #25179e;
+}
+
+/* ---------- RESPONSIVO ---------- */
+@media (max-width: 640px) {
+    .sup-wrap {
+        padding: 28px 16px 48px;
+        gap: 38px;
+    }
+
+    .sup-intro-ic {
+        width: 48px;
+        height: 48px;
+        font-size: 20px;
+    }
+
+    .sup-contact {
+        padding: 24px 18px;
+    }
+
+    .sup-q {
+        padding: 16px;
+    }
+
+    .sup-a-inner p {
+        padding: 0 16px 16px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .sup-a,
+    .sup-chevron {
+        transition: none;
+    }
+}
