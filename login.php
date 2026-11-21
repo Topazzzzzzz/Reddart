@@ -32,7 +32,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                 header("Location: index.php");
                 exit;
             } else {
-                $erro = "Senha incorreta!";
+                $erro = "Email ou Senha incorreto!";
             }
         } else {
             $erro = "E-mail não encontrado!";

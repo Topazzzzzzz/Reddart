@@ -36,9 +36,9 @@ mysqli_stmt_execute($stmtCount);
 $resCount = mysqli_stmt_get_result($stmtCount);
 $totalObras = mysqli_fetch_assoc($resCount)['total'] ?? 0;
 
-// 3. Busca as 4 publicações mais recentes do usuário
+// 3. Busca as publicações do usuário para galeria e modal
 $publicacoes = [];
-$sqlPublicacoes = "SELECT idPublicacao, pubLink, pubLegenda FROM tblPublicacoes WHERE idUsuario = ? ORDER BY pubHora DESC LIMIT 4";
+$sqlPublicacoes = "SELECT idPublicacao, pubLink, pubLegenda, pubHora FROM tblPublicacoes WHERE idUsuario = ? ORDER BY pubHora DESC";
 $stmtPub = mysqli_prepare($conn, $sqlPublicacoes);
 mysqli_stmt_bind_param($stmtPub, "i", $idUsuario);
 mysqli_stmt_execute($stmtPub);
@@ -50,6 +50,7 @@ if ($resPublicacoes) {
             'id'     => $linha['idPublicacao'],
             'img'    => $linha['pubLink'],
             'titulo' => $linha['pubLegenda'] ?? 'Sem título',
+            'data'   => date('d/m/Y H:i', strtotime($linha['pubHora']))
         ];
     }
 }
@@ -63,7 +64,7 @@ if ($resPublicacoes) {
     <title><?php echo $nomeExibicao; ?> | ReddArt</title>
     <link rel="icon" type="image/png" href="img/logo.png">
     <link rel="stylesheet" href="css/headerTopo.css">
-    <link rel="stylesheet" href="css/perfil.css?v=2">
+    <link rel="stylesheet" href="css/perfil.css?v=4">
     <link rel="stylesheet" href="css/footer.css">
     <!-- Fontes & Ícones -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -129,17 +130,15 @@ if ($resPublicacoes) {
                 <?php if (!empty($publicacoes)): ?>
                     <div class="posts-grid">
                         <?php foreach ($publicacoes as $pub): ?>
-                            <article class="post-card">
-                                <a href="index.php?post=<?php echo $pub['id']; ?>">
-                                    <div class="post-thumb">
-                                        <img src="<?php echo htmlspecialchars($pub['img']); ?>"
-                                             alt="<?php echo htmlspecialchars($pub['titulo']); ?>"
-                                             loading="lazy">
-                                    </div>
-                                    <div class="post-body">
-                                        <h3 class="post-title"><?php echo htmlspecialchars($pub['titulo']); ?></h3>
-                                    </div>
-                                </a>
+                            <article class="post-card" onclick="abrirModalPub('<?php echo $pub['img']; ?>', '<?php echo addslashes($pub['titulo']); ?>', '<?php echo $pub['data']; ?>', <?php echo $pub['id']; ?>)">
+                                <div class="post-thumb">
+                                    <img src="<?php echo htmlspecialchars($pub['img']); ?>"
+                                         alt="<?php echo htmlspecialchars($pub['titulo']); ?>"
+                                         loading="lazy">
+                                </div>
+                                <div class="post-body">
+                                    <h3 class="post-title"><?php echo htmlspecialchars($pub['titulo']); ?></h3>
+                                </div>
                             </article>
                         <?php endforeach; ?>
                     </div>
@@ -164,6 +163,64 @@ if ($resPublicacoes) {
 
         </div>
     </main>
+
+    <!-- MODAL DE VISUALIZAÇÃO E EDIÇÃO DA PUBLICAÇÃO -->
+    <div id="modalPub" class="modal-overlay" onclick="fecharModalFora(event)">
+        <div class="modal-content-box">
+            <!-- Botão de Fechar no Canto Superior Direito Absoluto -->
+            <button class="modal-close-btn" onclick="fecharModalPub()"><i class="fa-solid fa-xmark"></i></button>
+
+            <div class="modal-left-img">
+                <img id="modalImg" src="" alt="Imagem Ampliada">
+            </div>
+            <div class="modal-right-info">
+                <div>
+                    <h2 id="modalTitulo" style="margin-top: 15px; font-size: 1.3rem; color: #fff;">Título</h2>
+                    <p id="modalData" style="font-size: 0.85rem; color: #aaa; margin-top: 5px;"></p>
+                </div>
+
+                <div class="modal-actions-box">
+                    <a id="modalBtnEditar" href="#" class="btn-modal-action btn-edit-pub">
+                        <i class="fa-solid fa-pen"></i> Editar Título/Gênero
+                    </a>
+                    <button id="modalBtnExcluir" onclick="" class="btn-modal-action btn-delete-pub">
+                        <i class="fa-solid fa-trash"></i> Excluir Publicação
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function abrirModalPub(imgSrc, titulo, data, idPub) {
+            document.getElementById('modalImg').src = imgSrc;
+            document.getElementById('modalTitulo').innerText = titulo;
+            document.getElementById('modalData').innerText = "Publicado em: " + data;
+            
+            // Configura os links e ações de editar e excluir
+            document.getElementById('modalBtnEditar').href = "editarPublicacao.php?id=" + idPub;
+            document.getElementById('modalBtnExcluir').setAttribute('onclick', 'confirmarExclusao(' + idPub + ')');
+
+            // Adiciona a classe active para exibir o modal via CSS flex
+            document.getElementById('modalPub').classList.add('active');
+        }
+
+        function fecharModalPub() {
+            document.getElementById('modalPub').classList.remove('active');
+        }
+
+        function fecharModalFora(event) {
+            if (event.target.id === 'modalPub') {
+                fecharModalPub();
+            }
+        }
+
+        function confirmarExclusao(idPub) {
+            if (confirm("Tem certeza que deseja excluir esta publicação?")) {
+                window.location.href = "excluirPublicacao.php?id=" + idPub;
+            }
+        }
+    </script>
 
     <!-- FOOTER DA APLICAÇÃO -->
     <?php include_once 'include/footer.php'; ?>

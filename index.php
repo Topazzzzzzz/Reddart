@@ -3,20 +3,15 @@ include_once 'include/header.php';
 
 $termoBusca = trim($_GET['busca'] ?? '');
 $generoFiltro = isset($_GET['genero']) ? intval($_GET['genero']) : null;
+
+// Quantas imagens aparecem em "Recentes" (8 = duas fileiras de 4).
+// A Galeria começa logo depois, pulando essa mesma quantidade.
+$qtdRecentes = 8;
 ?>
     <main>
         <link rel="stylesheet" href="css/index.css">
         <!-- TOP BAR (Apenas com o botão Dark/Light) -->
-        <div class="top-bar top-bar-end">
-            <div class="button_dn">
-                <input type="checkbox" id="chk" class="checkbox">
-                <label class="label" for="chk">
-                    <i class="fas fa-moon"></i>
-                    <i class="fas fa-sun"></i>
-                    <div class="ball"></div>
-                </label>
-            </div>
-        </div>
+        
 
         <!-- BANNER DE DESTAQUE -->
         <div class="banner-container">
@@ -111,7 +106,7 @@ $generoFiltro = isset($_GET['genero']) ? intval($_GET['genero']) : null;
                                               ELSE 2 
                                           END ASC, 
                                           idPublicacao DESC 
-                                      LIMIT 10";
+                                      LIMIT 8";
                         $stmt = $conn->prepare($sqlEmAlta);
                         $stmt->bind_param("sis", $paramBusca, $generoFiltro, $termoInicio);
                     } else {
@@ -125,7 +120,7 @@ $generoFiltro = isset($_GET['genero']) ? intval($_GET['genero']) : null;
                                               ELSE 2 
                                           END ASC, 
                                           idPublicacao DESC 
-                                      LIMIT 10";
+                                      LIMIT 8";
                         $stmt = $conn->prepare($sqlEmAlta);
                         $stmt->bind_param("ss", $paramBusca, $termoInicio);
                     }
@@ -137,7 +132,7 @@ $generoFiltro = isset($_GET['genero']) ? intval($_GET['genero']) : null;
                         $sqlEmAlta = "SELECT tblPublicacoes.*, tblUsuario.userNome AS autorNome
                                       FROM tblPublicacoes
                                       LEFT JOIN tblUsuario ON tblUsuario.idUsuario = tblPublicacoes.idUsuario
-                                      WHERE idGenero = ? ORDER BY idPublicacao DESC LIMIT 5";
+                                      WHERE idGenero = ? ORDER BY idPublicacao DESC LIMIT $qtdRecentes";
                         $stmt = $conn->prepare($sqlEmAlta);
                         $stmt->bind_param("i", $generoFiltro);
                         $stmt->execute();
@@ -146,7 +141,7 @@ $generoFiltro = isset($_GET['genero']) ? intval($_GET['genero']) : null;
                         $sqlEmAlta = "SELECT tblPublicacoes.*, tblUsuario.userNome AS autorNome
                                       FROM tblPublicacoes
                                       LEFT JOIN tblUsuario ON tblUsuario.idUsuario = tblPublicacoes.idUsuario
-                                      ORDER BY idPublicacao DESC LIMIT 5";
+                                      ORDER BY idPublicacao DESC LIMIT $qtdRecentes";
                         $resultadoEmAlta = mysqli_query($conn, $sqlEmAlta);
                     }
                 }
@@ -193,7 +188,7 @@ $generoFiltro = isset($_GET['genero']) ? intval($_GET['genero']) : null;
                         $sqlGaleria = "SELECT tblPublicacoes.*, tblUsuario.userNome AS autorNome
                                        FROM tblPublicacoes
                                        LEFT JOIN tblUsuario ON tblUsuario.idUsuario = tblPublicacoes.idUsuario
-                                       WHERE idGenero = ? ORDER BY idPublicacao DESC LIMIT 100 OFFSET 5";
+                                       WHERE idGenero = ? ORDER BY idPublicacao DESC LIMIT 100 OFFSET $qtdRecentes";
                         $stmtGaleria = $conn->prepare($sqlGaleria);
                         $stmtGaleria->bind_param("i", $generoFiltro);
                         $stmtGaleria->execute();
@@ -202,7 +197,7 @@ $generoFiltro = isset($_GET['genero']) ? intval($_GET['genero']) : null;
                         $sqlGaleria = "SELECT tblPublicacoes.*, tblUsuario.userNome AS autorNome
                                        FROM tblPublicacoes
                                        LEFT JOIN tblUsuario ON tblUsuario.idUsuario = tblPublicacoes.idUsuario
-                                       ORDER BY idPublicacao DESC LIMIT 100 OFFSET 5";
+                                       ORDER BY idPublicacao DESC LIMIT 100 OFFSET $qtdRecentes";
                         $resultadoGeral = mysqli_query($conn, $sqlGaleria);
                     }
 
