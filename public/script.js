@@ -10,7 +10,49 @@ function normalizarId(id) {
 }
 
 document.addEventListener("DOMContentLoaded", () => {
-    // 1. Sidebar
+    // 1. Sidebar / menu mobile
+    const rdSidebar = document.getElementById('rdSidebar');
+    const rdDrawerOverlay = document.getElementById('rdDrawerOverlay');
+    const rdAbrirMenu = document.getElementById('rdAbrirMenu');
+    const rdFecharMenu = document.getElementById('rdFecharMenu');
+
+    function abrirMenuMobile() {
+        if (!rdSidebar) return;
+        document.body.classList.add('rd-drawer-aberto');
+        if (rdDrawerOverlay) rdDrawerOverlay.classList.add('is-visivel');
+        if (rdAbrirMenu) rdAbrirMenu.setAttribute('aria-expanded', 'true');
+    }
+
+    function fecharMenuMobile() {
+        document.body.classList.remove('rd-drawer-aberto');
+        if (rdDrawerOverlay) rdDrawerOverlay.classList.remove('is-visivel');
+        if (rdAbrirMenu) rdAbrirMenu.setAttribute('aria-expanded', 'false');
+    }
+
+    if (rdAbrirMenu && rdSidebar) {
+        rdAbrirMenu.addEventListener('click', abrirMenuMobile);
+    }
+    if (rdFecharMenu) {
+        rdFecharMenu.addEventListener('click', fecharMenuMobile);
+    }
+    if (rdDrawerOverlay) {
+        rdDrawerOverlay.addEventListener('click', fecharMenuMobile);
+    }
+    if (rdSidebar) {
+        rdSidebar.querySelectorAll('a.rd-nav__item').forEach((link) => {
+            link.addEventListener('click', () => {
+                if (window.innerWidth <= 1024) fecharMenuMobile();
+            });
+        });
+    }
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') fecharMenuMobile();
+    });
+    window.addEventListener('resize', () => {
+        if (window.innerWidth > 1024) fecharMenuMobile();
+    });
+
+    // Compatibilidade com a sidebar antiga (páginas que ainda usem #open_btn)
     const openBtn = document.getElementById('open_btn');
     const sidebar = document.getElementById('sidebar');
 
@@ -210,43 +252,93 @@ document.addEventListener("DOMContentLoaded", () => {
         }, true);
     }
 
-    // 4. Tema Claro / Escuro (CORRIGIDO)
+    // 4. Tema Claro / Escuro (neste projeto body.dark = tema claro)
+    function atualizarBotoesTema() {
+        const temaClaro = document.body.classList.contains('dark');
+
+        document.querySelectorAll('[data-tema-toggle]').forEach((btn) => {
+            btn.setAttribute('aria-pressed', temaClaro ? 'true' : 'false');
+            btn.setAttribute('aria-label', temaClaro ? 'Ativar tema escuro' : 'Ativar tema claro');
+        });
+
+        const rotulo = document.querySelector('[data-tema-rotulo]');
+        if (rotulo) rotulo.textContent = temaClaro ? 'Claro' : 'Escuro';
+
+        const chk = document.getElementById('chk');
+        if (chk) chk.checked = temaClaro;
+    }
+
+    function aplicarTema(temaClaro) {
+        document.body.classList.toggle('dark', temaClaro);
+        try {
+            localStorage.setItem('tema', temaClaro ? 'escuro' : 'claro');
+        } catch (e) { /* localStorage indisponível */ }
+        atualizarBotoesTema();
+    }
+
+    document.querySelectorAll('[data-tema-toggle]').forEach((btn) => {
+        btn.addEventListener('click', () => {
+            aplicarTema(!document.body.classList.contains('dark'));
+        });
+    });
+
     const chk = document.getElementById('chk');
     if (chk) {
-        const temaSalvo = localStorage.getItem('tema');
-        if (temaSalvo === 'escuro') {
-            document.body.classList.add('dark');
-            chk.checked = true;
-        } else {
-            document.body.classList.remove('dark');
-            chk.checked = false;
-        }
+        chk.addEventListener('change', () => aplicarTema(chk.checked));
+    }
 
-        chk.addEventListener('change', () => {
-            const ehEscuro = document.body.classList.toggle('dark');
-            localStorage.setItem('tema', ehEscuro ? 'escuro' : 'claro');
+    atualizarBotoesTema();
+
+    // 5. Fecha o menu do usuário ao clicar fora dele
+    const menuUsuario = document.querySelector('.rd-menu-usuario');
+    if (menuUsuario) {
+        document.addEventListener('click', (e) => {
+            if (menuUsuario.open && !menuUsuario.contains(e.target)) {
+                menuUsuario.open = false;
+            }
+        });
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') menuUsuario.open = false;
         });
     }
 
-    // 5. Pop-up de Configurações
-    const configBtn = document.getElementById("logout_btn");
+    // 6. Imagens com fallback
+    document.querySelectorAll('img[data-fallback]').forEach((img) => {
+        img.addEventListener('error', function () {
+            if (this.dataset.fallback && this.src.indexOf(this.dataset.fallback) === -1) {
+                this.src = this.dataset.fallback;
+            }
+        });
+    });
+
+    // 7. Pop-up de Configurações
+    const configAbrir = document.querySelectorAll('[data-config-abrir]');
     const popup = document.getElementById("config_popup");
     const overlay = document.getElementById("overlay");
     const closeBtn = document.getElementById("close_popup");
 
-    if (configBtn && popup && overlay) {
-        configBtn.addEventListener("click", () => {
+    if (popup && overlay) {
+        const abrirConfig = () => {
             popup.classList.add("show");
             overlay.classList.add("show");
-        });
+        };
 
-        function fecharConfig() {
+        const fecharConfig = () => {
             popup.classList.remove("show");
             overlay.classList.remove("show");
-        }
+        };
+
+        configAbrir.forEach((btn) => btn.addEventListener("click", abrirConfig));
+
+        // Compatibilidade com a sidebar antiga (páginas que ainda usem #logout_btn)
+        const configBtn = document.getElementById("logout_btn");
+        if (configBtn) configBtn.addEventListener("click", abrirConfig);
 
         if (closeBtn) closeBtn.addEventListener("click", fecharConfig);
         overlay.addEventListener("click", fecharConfig);
+        document.addEventListener("keydown", (e) => {
+            if (e.key === "Escape") fecharConfig();
+        });
     }
 
     // 6. Pop-up de Visualização (Modal)
