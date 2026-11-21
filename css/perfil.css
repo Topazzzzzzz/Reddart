@@ -7,7 +7,7 @@
 ========================================== */
 
 /* ==========================================
-   1. CONFIGURAÇÕES GERAIS E VARIÁVEIS
+1. CONFIGURAÇÕES GERAIS E VARIÁVEIS
 ========================================== */
 :root {
     --bg-main: #0C0C11;
@@ -57,7 +57,7 @@ button:focus-visible {
 }
 
 /* ==========================================
-   2. BANNER E MENU DO PERFIL
+2. BANNER E MENU DO PERFIL
 ========================================== */
 .profile-header {
     width: 100%;
@@ -105,6 +105,7 @@ button:focus-visible {
     background-color: var(--bg-card);
     z-index: 5;
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.6);
+    cursor: pointer;
 }
 
 .avatar-img {
@@ -162,7 +163,7 @@ button:focus-visible {
 }
 
 /* ==========================================
-   3. INFORMAÇÕES DO USUÁRIO E BOTÃO
+3. INFORMAÇÕES DO USUÁRIO E BOTÃO
 ========================================== */
 .profile-main {
     padding-top: 36px;
@@ -231,7 +232,7 @@ button:focus-visible {
 }
 
 /* ==========================================
-   4. GRID: PUBLICAÇÕES E BIO
+4. GRID: PUBLICAÇÕES E BIO
 ========================================== */
 .profile-grid {
     display: grid;
@@ -296,6 +297,7 @@ button:focus-visible {
     border-radius: 14px;
     overflow: hidden;
     transition: border-color .2s ease;
+    cursor: pointer;
 }
 
 .post-card:hover {
@@ -400,7 +402,234 @@ button:focus-visible {
 }
 
 /* ==========================================
-   5. TEMA CLARO (body.dark neste projeto)
+5. MODAL DE AMPLIAÇÃO DA FOTO DE PERFIL
+========================================== */
+.profile-modal {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.85);
+    z-index: 1000;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    backdrop-filter: blur(5px);
+}
+
+.profile-modal.active {
+    display: flex;
+}
+
+.profile-modal-content {
+    position: relative;
+    background-color: #1a1a26;
+    border: 1px solid #2a2a3d;
+    border-radius: 16px;
+    padding: 30px;
+    max-width: 450px;
+    width: 100%;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+    text-align: center;
+}
+
+.profile-modal-close {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background-color: #222233;
+    color: #ffffff;
+    border: 1px solid #2a2a3d;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background-color 0.2s, border-color 0.2s;
+    z-index: 10;
+}
+
+.profile-modal-close:hover {
+    background-color: #33334d;
+    border-color: #5542f6;
+}
+
+.profile-modal-img-container {
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    overflow: hidden;
+    margin: 0 auto 20px auto;
+    border: 3px solid var(--accent);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+}
+
+.profile-modal-img-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.profile-modal-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 20px;
+}
+
+.btn-modal-action {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 12px;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 14px;
+    text-decoration: none;
+    transition: background-color 0.2s, filter 0.2s;
+}
+
+.btn-modal-edit {
+    background: var(--grad);
+    color: #fff;
+}
+
+.btn-modal-edit:hover {
+    filter: brightness(1.2);
+}
+
+.btn-modal-delete {
+    background-color: #2a2a3d;
+    color: #ef4444;
+    border: 1px solid #3a3a52;
+}
+
+.btn-modal-delete:hover {
+    background-color: #3a3a52;
+}
+
+/* ==========================================
+6. MODAL DE PUBLICAÇÕES (CORRIGIDO)
+========================================== */
+.modal-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.85);
+    z-index: 1000;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+.modal-overlay.active {
+    display: flex;
+}
+
+.modal-content-box {
+    background-color: #1a1a26;
+    border: 1px solid #2a2a3d;
+    border-radius: 12px;
+    max-width: 900px;
+    width: 100%;
+    display: flex;
+    overflow: hidden;
+    position: relative;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+}
+
+.modal-left-img {
+    flex: 1;
+    background-color: #000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    max-height: 80vh;
+}
+
+.modal-left-img img {
+    max-width: 100%;
+    max-height: 80vh;
+    object-fit: contain;
+}
+
+.modal-right-info {
+    width: 350px;
+    padding: 25px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    background-color: #161622;
+    position: relative;
+}
+
+.modal-close-btn {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background-color: #222233;
+    color: #ffffff;
+    border: 1px solid #2a2a3d;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background-color 0.2s, border-color 0.2s;
+    z-index: 10;
+}
+
+.modal-close-btn:hover {
+    background-color: #33334d;
+    border-color: #5542f6;
+}
+
+.modal-actions-box {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.btn-modal-action {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 10px;
+    border-radius: 8px;
+    font-weight: bold;
+    text-decoration: none;
+    cursor: pointer;
+    border: none;
+    font-size: 0.9rem;
+    transition: opacity 0.2s;
+}
+
+.btn-edit-pub {
+    background-color: #5542f6;
+    color: #fff;
+}
+
+.btn-delete-pub {
+    background-color: #2a2a3d;
+    color: #ef4444;
+    border: 1px solid #3a3a52;
+}
+
+.btn-modal-action:hover {
+    opacity: 0.85;
+}
+
+/* ==========================================
+7. TEMA CLARO (body.dark neste projeto)
 ========================================== */
 body.dark {
     --bg-main: #f4f4f5;
@@ -474,7 +703,7 @@ body.dark .icon-empty {
 }
 
 /* ==========================================
-   6. RESPONSIVIDADE
+8. RESPONSIVIDADE
 ========================================== */
 @media screen and (max-width: 1024px) {
     .profile-grid {
@@ -527,5 +756,15 @@ body.dark .icon-empty {
     .posts-grid {
         grid-template-columns: repeat(2, 1fr);
         gap: 12px;
+    }
+    
+    .modal-content-box {
+        flex-direction: column;
+        max-height: 90vh;
+        overflow-y: auto;
+    }
+    
+    .modal-right-info {
+        width: 100%;
     }
 }
