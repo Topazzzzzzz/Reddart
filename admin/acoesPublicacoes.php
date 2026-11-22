@@ -9,14 +9,24 @@ if (!isset($_SESSION['usuario_cargo']) || $_SESSION['usuario_cargo'] !== 2) {
 
 if (isset($_GET['acao']) && $_GET['acao'] === 'excluir') {
     $idPublicacao = (int)($_GET['id'] ?? 0);
+    $abaRetorno = ($_GET['aba'] ?? '') === 'denuncias' ? 'denuncias' : 'publicacoes';
 
     if ($idPublicacao > 0) {
+        $conn->begin_transaction();
+
+        $stmtDenuncias = $conn->prepare("DELETE FROM tblDenuncias WHERE idPublicacao = ?");
+        $stmtDenuncias->bind_param("i", $idPublicacao);
+        $stmtDenuncias->execute();
+        $stmtDenuncias->close();
+
         $stmt = $conn->prepare("DELETE FROM tblPublicacoes WHERE idPublicacao = ?");
         $stmt->bind_param("i", $idPublicacao);
-        $stmt->execute();
+        $ok = $stmt->execute();
         $stmt->close();
+        $conn->commit();
 
-        header("Location: gerenciarPublicacoes.php?msg=" . urlencode("Publicação removida!"));
+        $mensagem = $ok ? 'Publicação removida!' : 'Não foi possível remover a publicação.';
+        header("Location: gerenciarPublicacoes.php?aba=" . $abaRetorno . "&msg=" . urlencode($mensagem));
         exit;
     }
 }

@@ -35,6 +35,7 @@ $resultado = $conn->query($sql);
     <title>REDDART - Relatório de Acessos</title>
     
     <link rel="stylesheet" href="../css/relatorio.css">
+    <link rel="stylesheet" href="../css/responsivo.css?v=1">
     <link rel="icon" type="image/jpeg" href="../img/logo.jpg">
     <link rel="shortcut icon" type="image/jpeg" href="../img/logo.jpg">
 </head>

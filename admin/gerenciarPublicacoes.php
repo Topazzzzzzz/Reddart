@@ -1,6 +1,7 @@
 <?php
 session_start();
 require_once '../setup/conexao.php';
+require_once '../include/denunciasFuncoes.php';
 
 if (!isset($_SESSION['usuario_cargo']) || $_SESSION['usuario_cargo'] !== 2) {
     header("Location: home.php");
@@ -8,18 +9,38 @@ if (!isset($_SESSION['usuario_cargo']) || $_SESSION['usuario_cargo'] !== 2) {
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['limpar_todas_publicacoes'])) {
+    $conn->begin_transaction();
+    $stmtDenuncias = $conn->prepare("DELETE FROM tblDenuncias");
+    $stmtDenuncias->execute();
+    $stmtDenuncias->close();
     $stmtLimpar = $conn->prepare("DELETE FROM tblPublicacoes");
     $stmtLimpar->execute();
     $stmtLimpar->close();
+    $conn->commit();
 
     header("Location: gerenciarPublicacoes.php?msg=" . urlencode("Todas as publicações foram removidas com sucesso!"));
     exit;
 }
 
-$sql = "SELECT p.idPublicacao, p.idUsuario, p.pubHora, p.pubLink, p.pubLegenda, p.idGenero, p.pubCurtidas, u.userNome, u.userNick 
-        FROM tblPublicacoes p 
-        LEFT JOIN tblUsuario u ON p.idUsuario = u.idUsuario 
-        ORDER BY p.pubHora DESC";
+$aba = ($_GET['aba'] ?? 'publicacoes') === 'denuncias' ? 'denuncias' : 'publicacoes';
+$resultadoTotalDenuncias = $conn->query('SELECT COUNT(*) AS total FROM tblDenuncias');
+$totalDenuncias = $resultadoTotalDenuncias ? (int) $resultadoTotalDenuncias->fetch_assoc()['total'] : 0;
+
+if ($aba === 'denuncias') {
+    $sql = "SELECT p.idPublicacao, p.idUsuario, p.pubLink, p.pubLegenda, u.userNome, u.userNick,
+                   COUNT(d.idDenuncias) AS totalDenuncias,
+                   GROUP_CONCAT(DISTINCT d.idTipo ORDER BY d.idTipo SEPARATOR ',') AS tiposDenuncia
+            FROM tblDenuncias d
+            INNER JOIN tblPublicacoes p ON p.idPublicacao = d.idPublicacao
+            LEFT JOIN tblUsuario u ON p.idUsuario = u.idUsuario
+            GROUP BY p.idPublicacao, p.idUsuario, p.pubLink, p.pubLegenda, u.userNome, u.userNick
+            ORDER BY COUNT(d.idDenuncias) DESC, MAX(d.idDenuncias) DESC";
+} else {
+    $sql = "SELECT p.idPublicacao, p.idUsuario, p.pubHora, p.pubLink, p.pubLegenda, p.idGenero, p.pubCurtidas, u.userNome, u.userNick
+            FROM tblPublicacoes p
+            LEFT JOIN tblUsuario u ON p.idUsuario = u.idUsuario
+            ORDER BY p.pubHora DESC";
+}
 $resultado = $conn->query($sql);
 ?>
 <!DOCTYPE html>
@@ -29,6 +50,8 @@ $resultado = $conn->query($sql);
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>REDDART - Gerenciar Publicações</title>
     <link rel="stylesheet" href="../css/gerenciar.css">
+    <link rel="stylesheet" href="../css/denuncias.css?v=1">
+    <link rel="stylesheet" href="../css/responsivo.css?v=1">
     <link rel="icon" type="image/jpeg" href="../img/logo.jpg">
     <link rel="shortcut icon" type="image/jpeg" href="../img/logo.jpg">
 </head>
@@ -40,10 +63,71 @@ $resultado = $conn->query($sql);
         <span class="badge-admin">PAINEL ADMINISTRATIVO</span>
         <h2>Gerenciar Publicações</h2>
 
+        <nav class="admin-abas-denuncias" aria-label="Gerenciamento de publicações">
+            <a href="gerenciarPublicacoes.php" class="<?php echo $aba === 'publicacoes' ? 'ativa' : ''; ?>">Publicações</a>
+            <a href="gerenciarPublicacoes.php?aba=denuncias" class="<?php echo $aba === 'denuncias' ? 'ativa' : ''; ?>">Denúncias <span><?php echo $totalDenuncias; ?></span></a>
+        </nav>
+
         <?php if (isset($_GET['msg'])): ?>
             <p class="msg-sucesso"><?php echo htmlspecialchars($_GET['msg']); ?></p>
         <?php endif; ?>
 
+        <?php if ($aba === 'denuncias'): ?>
+        <table class="tabela-usuarios">
+            <thead>
+                <tr>
+                    <th>Mídia</th>
+                    <th>Autor</th>
+                    <th>Denúncias</th>
+                    <th>Motivos informados</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php if ($resultado && $resultado->num_rows > 0): ?>
+                    <?php while ($pub = $resultado->fetch_assoc()): ?>
+                        <?php
+                            $midia = (string) ($pub['pubLink'] ?? '');
+                            if ($midia === '') {
+                                $midia = '../uploads/BannerPrin2.jpg';
+                            } elseif (!str_starts_with($midia, 'http') && !str_starts_with($midia, '../')) {
+                                $midia = '../' . $midia;
+                            }
+                            $motivos = array_filter(array_map('intval', explode(',', (string) ($pub['tiposDenuncia'] ?? ''))));
+                        ?>
+                        <tr>
+                            <td>
+                                <a href="<?php echo htmlspecialchars($midia, ENT_QUOTES, 'UTF-8'); ?>" target="_blank" rel="noopener">
+                                    <img src="<?php echo htmlspecialchars($midia, ENT_QUOTES, 'UTF-8'); ?>" alt="Mídia denunciada" class="avatar-img" style="object-fit:cover;border-radius:4px" onerror="this.onerror=null;this.src='../uploads/BannerPrin2.jpg';">
+                                </a>
+                                <br><strong><?php echo htmlspecialchars($pub['pubLegenda'] ?? 'Sem título', ENT_QUOTES, 'UTF-8'); ?></strong>
+                            </td>
+                            <td>
+                                <strong><?php echo htmlspecialchars($pub['userNome'] ?? 'Desconhecido', ENT_QUOTES, 'UTF-8'); ?></strong><br>
+                                <span class="user-nick">@<?php echo htmlspecialchars($pub['userNick'] ?? 'desconhecido', ENT_QUOTES, 'UTF-8'); ?></span>
+                            </td>
+                            <td><span class="denuncia-contagem"><?php echo (int) $pub['totalDenuncias']; ?></span></td>
+                            <td class="denuncia-motivos">
+                                <?php foreach ($motivos as $idTipo): ?>
+                                    <?php if (isset($tiposDenuncia[$idTipo])): ?>
+                                        <div><?php echo htmlspecialchars($tiposDenuncia[$idTipo], ENT_QUOTES, 'UTF-8'); ?></div>
+                                    <?php endif; ?>
+                                <?php endforeach; ?>
+                            </td>
+                            <td>
+                                <div class="acoes-cell denuncia-acoes">
+                                    <a class="btn-editar" href="../perfil.php?id=<?php echo (int) $pub['idUsuario']; ?>" target="_blank" rel="noopener">Perfil</a>
+                                    <a href="acoesPublicacoes.php?acao=excluir&amp;id=<?php echo (int) $pub['idPublicacao']; ?>&amp;aba=denuncias" class="btn-excluir" onclick="return confirm('Excluir esta publicação? As denúncias relacionadas também serão removidas.');">Excluir publicação</a>
+                                </div>
+                            </td>
+                        </tr>
+                    <?php endwhile; ?>
+                <?php else: ?>
+                    <tr><td colspan="5" style="text-align:center;padding:20px">Nenhuma denúncia recebida.</td></tr>
+                <?php endif; ?>
+            </tbody>
+        </table>
+        <?php else: ?>
         <table class="tabela-usuarios">
             <thead>
                 <tr>
@@ -56,6 +140,7 @@ $resultado = $conn->query($sql);
                 </tr>
             </thead>
             <tbody>
+                <?php if ($resultado && $resultado->num_rows > 0): ?>
                 <?php while ($pub = $resultado->fetch_assoc()): ?>
                     <?php 
                         $midia = $pub['pubLink'];
@@ -93,9 +178,14 @@ $resultado = $conn->query($sql);
                         </td>
                     </tr>
                 <?php endwhile; ?>
+                <?php else: ?>
+                    <tr><td colspan="6" style="text-align:center;padding:20px">Nenhuma publicação encontrada.</td></tr>
+                <?php endif; ?>
             </tbody>
         </table>
+        <?php endif; ?>
 
+        <?php if ($aba === 'publicacoes'): ?>
         <div style="display: flex; gap: 10px; margin-top: 20px;">
             <a href="itensSite.php" class="btn-voltar">Voltar ao Painel</a>
 
@@ -105,6 +195,7 @@ $resultado = $conn->query($sql);
                 </button>
             </form>
         </div>
+        <?php endif; ?>
     </div>
 
     <div id="modalEditar" class="modal">

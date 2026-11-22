@@ -28,6 +28,7 @@ $resultado = $conn->query($sql);
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>REDDART - Gerenciar Usuários</title>
     <link rel="stylesheet" href="../css/gerenciar.css">
+    <link rel="stylesheet" href="../css/responsivo.css?v=1">
     <link rel="icon" type="image/jpeg" href="../img/logo.jpg">
     <link rel="shortcut icon" type="image/jpeg" href="../img/logo.jpg">
 </head>

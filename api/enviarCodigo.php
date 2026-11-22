@@ -1,6 +1,6 @@
 <?php
 /**
- * Envia o código de verificação de e-mail (6 dígitos).
+ * Envia o código de verificação de e-mail (6 dígitos) por SMTP (PHPMailer).
  * Substitui a rota /api/enviar-codigo que existia no servidor Node.js.
  *
  * Usa a tabela tblEmailVerificacao:
@@ -8,7 +8,14 @@
  *
  * O ID e o e-mail NÃO vêm do navegador: usamos a sessão criada pelo cada.php
  * e buscamos o e-mail no banco (assim ninguém manda código para outro e-mail).
+ *
+ * Precisa de:
+ *   api/configEmail.php
+ *   api/PHPMailer/PHPMailer.php, SMTP.php e Exception.php
  */
+
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception as MailException;
 
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
@@ -19,11 +26,8 @@ header('Cache-Control: no-store');
 ini_set('display_errors', '0');
 error_reporting(E_ALL);
 
-const EMAIL_REMETENTE       = 'reddart@gmail.com';
-const NOME_REMETENTE        = 'ReddArt';
 const VALIDADE_MINUTOS      = 15;
 const INTERVALO_REENVIO_SEG = 60;
-// ============================================================
 
 function responder($status, $dados)
 {
@@ -39,6 +43,28 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 if (empty($_SESSION['idUsuario'])) {
     responder(401, ['mensagem' => 'Sessão expirada. Faça o cadastro ou login novamente.']);
 }
+
+// ---- Configuração de e-mail e biblioteca ----
+$arquivoConfig = __DIR__ . '/configEmail.php';
+$pastaMailer   = __DIR__ . '/PHPMailer';
+
+if (!is_file($arquivoConfig)) {
+    error_log('[ReddArt] api/configEmail.php não encontrado.');
+    responder(500, ['mensagem' => 'Configuração de e-mail ausente (api/configEmail.php).']);
+}
+
+foreach (['PHPMailer.php', 'SMTP.php', 'Exception.php'] as $arq) {
+    if (!is_file($pastaMailer . '/' . $arq)) {
+        error_log('[ReddArt] PHPMailer ausente: ' . $arq);
+        responder(500, ['mensagem' => 'Biblioteca PHPMailer não encontrada em api/PHPMailer/ (falta ' . $arq . ').']);
+    }
+}
+
+$cfg = require $arquivoConfig;
+
+require_once $pastaMailer . '/Exception.php';
+require_once $pastaMailer . '/PHPMailer.php';
+require_once $pastaMailer . '/SMTP.php';
 
 include_once __DIR__ . '/../setup/conexao.php';
 
@@ -108,8 +134,7 @@ try {
     $idVerificacao = $stmt->insert_id;
     $stmt->close();
 
-    // 5. Monta e envia o e-mail
-    $assunto = 'Seu código de verificação - ReddArt';
+    // 5. Monta e envia o e-mail por SMTP
     $corpo = '<div style="font-family:Arial,sans-serif;max-width:480px;margin:auto;padding:24px;">'
            . '<h2 style="margin:0 0 12px;">Verifique seu e-mail</h2>'
            . '<p>Use o código abaixo para concluir seu cadastro no ReddArt:</p>'
@@ -118,24 +143,51 @@ try {
            . 'Se você não criou uma conta, ignore este e-mail.</p>'
            . '</div>';
 
-    $headers  = "MIME-Version: 1.0\r\n";
-    $headers .= "Content-Type: text/html; charset=UTF-8\r\n";
-    $headers .= 'From: ' . NOME_REMETENTE . ' <' . EMAIL_REMETENTE . ">\r\n";
-    $headers .= 'Reply-To: ' . EMAIL_REMETENTE . "\r\n";
+    $erroEnvio = '';
 
-    $assuntoCodificado = '=?UTF-8?B?' . base64_encode($assunto) . '?=';
+    try {
+        $mail = new PHPMailer(true);
+        $mail->isSMTP();
+        $mail->Host       = $cfg['host'];
+        $mail->SMTPAuth   = true;
+        $mail->Username   = $cfg['usuario'];
+        $mail->Password   = $cfg['senha'];
+        $mail->SMTPSecure = ($cfg['seguranca'] === 'ssl')
+            ? PHPMailer::ENCRYPTION_SMTPS
+            : PHPMailer::ENCRYPTION_STARTTLS;
+        $mail->Port       = (int) $cfg['porta'];
+        $mail->CharSet    = 'UTF-8';
+        $mail->Timeout    = 15;
 
-    $enviado = @mail($email, $assuntoCodificado, $corpo, $headers, '-f' . EMAIL_REMETENTE);
+        $mail->setFrom($cfg['remetente_email'], $cfg['remetente_nome']);
+        $mail->addAddress($email);
 
-    if (!$enviado) {
+        $mail->isHTML(true);
+        $mail->Subject = 'Seu código de verificação - ReddArt';
+        $mail->Body    = $corpo;
+        $mail->AltBody = "Seu código de verificação do ReddArt: {$codigo}. Ele vale por {$minutos} minutos.";
+
+        $mail->send();
+    } catch (MailException $e) {
+        $erroEnvio = isset($mail) ? $mail->ErrorInfo : $e->getMessage();
+    } catch (Throwable $e) {
+        $erroEnvio = $e->getMessage();
+    }
+
+    if ($erroEnvio !== '') {
         // Apaga o código para o usuário poder tentar de novo sem esperar
         $stmt = $conn->prepare("DELETE FROM tblEmailVerificacao WHERE idVerificacao = ?");
         $stmt->bind_param("i", $idVerificacao);
         $stmt->execute();
         $stmt->close();
 
-        error_log('[ReddArt] mail() falhou para o usuário ' . $idUsuario);
-        responder(500, ['mensagem' => 'Não foi possível enviar o e-mail agora. Tente novamente em instantes.']);
+        error_log('[ReddArt] SMTP falhou (usuário ' . $idUsuario . '): ' . $erroEnvio);
+
+        $msg = 'Não foi possível enviar o e-mail agora. Tente novamente em instantes.';
+        if (!empty($cfg['debug'])) {
+            $msg .= ' [Detalhe: ' . $erroEnvio . ']';
+        }
+        responder(500, ['mensagem' => $msg]);
     }
 
     responder(200, ['sucesso' => true, 'mensagem' => 'Código enviado! Verifique sua caixa de entrada e o spam.']);

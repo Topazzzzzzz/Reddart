@@ -10,6 +10,7 @@ session_start();
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>REDDART - Login</title>
     <link rel="stylesheet" href="../css/logAdm.css">
+    <link rel="stylesheet" href="../css/responsivo.css?v=1">
 </head>
 <body>
 
