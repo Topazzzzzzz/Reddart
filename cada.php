@@ -20,13 +20,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $senha = $_POST['userSenha'] ?? '';
     $senhaConfirm = $_POST['userSenhaConfirm'] ?? '';
     $descricao = trim($_POST['userDescricao'] ?? '');
+    $aceiteLgpd = isset($_POST['aceite_lgpd']); // Verifica o aceite da LGPD
     $idCargoPadrao = 1; 
 
     $erro = "";
 
+    // Validação obrigatória LGPD no servidor
+    if (!$aceiteLgpd) {
+        $erro = "Você precisa ler e aceitar os Termos de Uso e a Política de Privacidade (LGPD) para criar sua conta.";
+    }
+
     // Bloqueio de termos restritos no Nick
     $nickMinusculo = strtolower($nick);
-    if (str_contains($nickMinusculo, 'logicfox') || str_contains($nickMinusculo, 'spinelli')) {
+    if (empty($erro) && (str_contains($nickMinusculo, 'logicfox') || str_contains($nickMinusculo, 'spinelli'))) {
         $erro = "Alerta: O nickname possui termos restritos.";
     }
 
@@ -131,6 +137,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="css/cada.css?v=2">
     <link rel="stylesheet" href="css/responsivo.css?v=1">
+
 </head>
 
 <body>
@@ -198,6 +205,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <textarea id="userDescricao" name="userDescricao" maxlength="200" placeholder="Conte um pouco sobre você..."></textarea>
             </div>
 
+            <!-- CAIXA DE ACEITE LGPD / TERMOS E CONDIÇÕES -->
+            <div class="lgpd-group">
+                <input type="checkbox" id="aceite_lgpd" name="aceite_lgpd" value="1" required>
+                <label for="aceite_lgpd">
+                    Li e concordo com os 
+                    <button type="button" class="lgpd-link" onclick="abrirModalLgpd()">Termos de Uso e Política de Privacidade (LGPD)</button>, 
+                    autorizando o tratamento dos meus dados pessoais para funcionamento da plataforma.
+                </label>
+            </div>
+
             <button type="submit" id="btnSubmit" class="btn-cadastro">Criar Conta</button>
 
             <a href="login.php" class="link-login">
@@ -219,6 +236,34 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     </div>
 
+    <!-- MODAL DE TERMOS E POLÍTICA DE PRIVACIDADE (LGPD) -->
+    <div id="modalLgpd" class="modal-lgpd-overlay" onclick="fecharModalLgpdFora(event)">
+        <div class="modal-lgpd-box">
+            <div class="modal-lgpd-header">
+                <h3><i class="fa-solid fa-shield-halved" style="color: #818cf8; margin-right: 8px;"></i>Termos de Uso e Política de Privacidade (LGPD)</h3>
+                <button type="button" class="modal-lgpd-close" onclick="fecharModalLgpd()">&times;</button>
+            </div>
+
+            <div class="modal-lgpd-body">
+                <h4>1. Coleta e Finalidade dos Dados (Lei nº 13.709/2018 - LGPD)</h4>
+                <p>Ao criar uma conta no <strong>ReddArt</strong>, coletamos seu nome completo, nome de usuário (nickname), endereço de e-mail, senha (armazenada de forma criptografada) e imagens enviadas voluntariamente (avatar, banner e publicações). Esses dados são utilizados exclusivamente para autenticação, personalização do seu perfil e funcionamento dos recursos sociais da plataforma.</p>
+
+                <h4>2. Compartilhamento e Segurança</h4>
+                <p>Seus dados pessoais privados, como e-mail e senha criptografada, <strong>não são vendidos ou compartilhados</strong> com terceiros para fins comerciais. Informações públicas do seu perfil (nickname, biografia, foto de perfil e artes publicadas) ficam visíveis aos demais usuários da comunidade.</p>
+
+                <h4>3. Direitos do Titular e Exclusão de Conta</h4>
+                <p>Em conformidade com o Art. 18 da LGPD, você tem o direito de acessar, corrigir ou excluir seus dados e publicações a qualquer momento através das configurações do seu perfil ou entrando em contato com o suporte da plataforma.</p>
+
+                <h4>4. Diretrizes de Conteúdo e Direitos Autorais</h4>
+                <p>O usuário declara possuir os direitos ou permissões sobre as artes e imagens publicadas no ReddArt. É estritamente proibida a publicação de conteúdo ilegal, ofensivo, discurso de ódio ou violação de direitos autorais de terceiros, estando a conta sujeita a moderação e bloqueio.</p>
+            </div>
+
+            <div class="modal-lgpd-footer">
+                <button type="button" class="btn-aceitar-lgpd" onclick="concordarEFecharLgpd()">Li e Concordo</button>
+            </div>
+        </div>
+    </div>
+
     <!-- Script com a lógica do Node.js integrada -->
     <script src="public/script.js"></script>
 
@@ -235,6 +280,26 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             }
         }
 
+        // Funções do Modal LGPD
+        function abrirModalLgpd() {
+            document.getElementById('modalLgpd').classList.add('show');
+        }
+
+        function fecharModalLgpd() {
+            document.getElementById('modalLgpd').classList.remove('show');
+        }
+
+        function fecharModalLgpdFora(event) {
+            if (event.target.id === 'modalLgpd') {
+                fecharModalLgpd();
+            }
+        }
+
+        function concordarEFecharLgpd() {
+            document.getElementById('aceite_lgpd').checked = true;
+            fecharModalLgpd();
+        }
+
         let idUsuarioCadastrado = null;
 
         // Submissão do formulário via JavaScript (AJAX)
@@ -243,6 +308,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
             const erroDiv = document.getElementById('mensagem-erro');
             const btnSubmit = document.getElementById('btnSubmit');
+            const checkboxLgpd = document.getElementById('aceite_lgpd');
+
+            if (!checkboxLgpd.checked) {
+                erroDiv.textContent = "Você precisa aceitar os Termos de Uso e a Política de Privacidade (LGPD).";
+                erroDiv.style.display = 'block';
+                return;
+            }
             
             erroDiv.style.display = 'none';
             btnSubmit.disabled = true;

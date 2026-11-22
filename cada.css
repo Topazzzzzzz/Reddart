@@ -1,0 +1,411 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+body {
+    background: linear-gradient(135deg, #000000, #0c0c11, #111113);
+    color: #ffffff;
+    min-height: 100vh;
+    width: 100vw;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 20px;
+    overflow-x: hidden;
+}
+
+.site-header {
+    width: 100%;
+    text-align: center;
+    margin-bottom: 24px;
+}
+
+.site-title {
+    font-size: 36px;
+    font-weight: 800;
+    letter-spacing: 3px;
+    background: linear-gradient(135deg, #4f46e5, #000146);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-transform: uppercase;
+}
+
+.cadastro-container {
+    background-color: #121218;
+    border: 1px solid #1f1f2e;
+    padding: 32px;
+    border-radius: 16px;
+    width: 100%;
+    max-width: 480px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+}
+
+.form-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.form-row {
+    display: flex;
+    gap: 12px;
+}
+
+.form-row .form-group {
+    flex: 1;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+label {
+    color: #8a8a9e;
+    font-size: 13px;
+    font-weight: 500;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="password"],
+textarea {
+    width: 100%;
+    padding: 12px 14px;
+    background-color: #0c0c11;
+    color: #ffffff;
+    border-radius: 10px;
+    border: 1px solid #1f1f2e;
+    outline: none;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    font-size: 14px;
+}
+
+textarea {
+    resize: none;
+    height: 80px;
+}
+
+input:focus,
+textarea:focus {
+    border-color: #4f46e5;
+    box-shadow: 0 0 0 2px rgba(79, 70, 229, 0.2);
+}
+
+/* Área Personalizada para Upload de Foto de Perfil */
+.file-drop-area {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    border: 2px dashed #1f1f2e;
+    border-radius: 12px;
+    background-color: #0c0c11;
+    text-align: center;
+    cursor: pointer;
+    transition: border-color 0.2s ease, background-color 0.2s ease;
+}
+
+.file-drop-area:hover {
+    border-color: #4f46e5;
+    background-color: rgba(79, 70, 229, 0.05);
+}
+
+.file-drop-area i {
+    font-size: 24px;
+    color: #4f46e5;
+    margin-bottom: 6px;
+}
+
+.file-drop-area span {
+    font-size: 12px;
+    color: #8a8a9e;
+}
+
+.file-drop-area input[type="file"] {
+    position: absolute;
+    left: 0;
+    top: 0;
+    opacity: 0;
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+}
+
+.btn-cadastro {
+    width: 100%;
+    margin-top: 8px;
+    padding: 12px;
+    background: linear-gradient(135deg, #4f46e5, #5542F6);
+    color: #ffffff;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 15px;
+    transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.btn-cadastro:hover {
+    opacity: 0.9;
+    transform: translateY(-2px);
+}
+
+.link-login {
+    display: block;
+    text-align: center;
+    margin-top: 16px;
+    color: #8a8a9e;
+    text-decoration: none;
+    font-size: 13px;
+}
+
+.link-login strong {
+    color: #4f46e5;
+}
+
+.erro {
+    color: #f87171;
+    text-align: center;
+    font-size: 13px;
+    background: rgba(248, 113, 113, 0.1);
+    padding: 12px;
+    border-radius: 10px;
+    border: 1px solid rgba(248, 113, 113, 0.2);
+    margin-bottom: 20px;
+}
+
+@media (max-width: 480px) {
+    .form-row {
+        flex-direction: column;
+    }
+}
+
+@media (max-width: 600px) {
+    body {
+        width: 100%;
+        min-height: 100dvh;
+        justify-content: flex-start;
+        padding: max(20px, env(safe-area-inset-top)) 14px max(20px, env(safe-area-inset-bottom));
+    }
+
+    .site-header {
+        margin: 8px 0 14px;
+    }
+
+    .site-title {
+        font-size: clamp(28px, 8vw, 36px);
+    }
+
+    .cadastro-container {
+        width: 100%;
+        max-width: 480px;
+        padding: clamp(18px, 5vw, 28px);
+    }
+
+    .form-row {
+        flex-direction: column;
+        gap: 16px;
+    }
+
+    .cadastro-container input[type="text"],
+    .cadastro-container input[type="email"],
+    .cadastro-container input[type="password"],
+    .cadastro-container textarea {
+        min-height: 48px;
+        font-size: 16px;
+    }
+
+    .cadastro-container textarea {
+        min-height: 96px;
+    }
+
+    .file-drop-area {
+        min-height: 96px;
+        padding: 16px;
+    }
+}
+
+/* Estilo da caixa de aceite LGPD */
+/* Estilo da caixa de aceite LGPD alinhada */
+/* Estilo da caixa de aceite LGPD alinhada e personalizada */
+.lgpd-group {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin: 12px 0 6px;
+    text-align: left;
+    font-size: 13px;
+    color: #d4d4d8;
+    line-height: 1.5;
+}
+
+.lgpd-group input[type="checkbox"] {
+    appearance: none;
+    -webkit-appearance: none;
+    width: 20px;
+    height: 20px;
+    min-width: 20px;
+    background-color: #101524;
+    border: 1px solid rgba(148, 163, 255, 0.3);
+    border-radius: 6px;
+    margin: 0;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+}
+
+.lgpd-group input[type="checkbox"]:hover {
+    border-color: #818cf8;
+}
+
+.lgpd-group input[type="checkbox"]:checked {
+    background-color: #4f46e5; /* Tom de roxo do site */
+    border-color: #6366f1;
+    box-shadow: 0 0 10px rgba(79, 70, 229, 0.4);
+}
+
+/* Cria o ícone de 'visto' (check) branco dentro da caixinha quando marcada */
+.lgpd-group input[type="checkbox"]:checked::after {
+    content: "\f00c";
+    font-family: "Font Awesome 6 Free";
+    font-weight: 900;
+    font-size: 11px;
+    color: #ffffff;
+}
+
+.lgpd-group label {
+    cursor: pointer;
+    user-select: none;
+    margin: 0;
+}
+
+.lgpd-link {
+    display: inline;
+    color: #818cf8;
+    text-decoration: underline;
+    font-weight: 500;
+    cursor: pointer;
+    background: none;
+    border: none;
+    padding: 0;
+    font-size: inherit;
+    font-family: inherit;
+    text-align: left;
+}
+
+.lgpd-link:hover {
+    color: #a5b4fc;
+}
+
+/* Modal dos Termos e LGPD */
+.modal-lgpd-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(5px);
+    z-index: 3000;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+.modal-lgpd-overlay.show {
+    display: flex;
+}
+
+.modal-lgpd-box {
+    background: #151b2c;
+    border: 1px solid rgba(148, 163, 255, 0.16);
+    border-radius: 16px;
+    width: min(650px, 95%);
+    max-height: 82vh;
+    display: flex;
+    flex-direction: column;
+    color: #f4f4f5;
+    box-shadow: 0 24px 60px rgba(0, 0, 0, 0.7);
+    overflow: hidden;
+}
+
+.modal-lgpd-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 18px 24px;
+    border-bottom: 1px solid rgba(148, 163, 255, 0.1);
+    background: #101524;
+}
+
+.modal-lgpd-header h3 {
+    margin: 0;
+    font-size: 18px;
+    color: #ffffff;
+}
+
+.modal-lgpd-close {
+    background: none;
+    border: none;
+    color: #a1a1aa;
+    font-size: 22px;
+    cursor: pointer;
+}
+
+.modal-lgpd-close:hover {
+    color: #ffffff;
+}
+
+.modal-lgpd-body {
+    padding: 22px 24px;
+    overflow-y: auto;
+    font-size: 13.5px;
+    line-height: 1.65;
+    color: #d4d4d8;
+    text-align: left;
+}
+
+.modal-lgpd-body h4 {
+    color: #818cf8;
+    margin: 14px 0 6px;
+    font-size: 15px;
+}
+
+.modal-lgpd-body h4:first-child {
+    margin-top: 0;
+}
+
+.modal-lgpd-footer {
+    padding: 14px 24px;
+    border-top: 1px solid rgba(148, 163, 255, 0.1);
+    background: #101524;
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+}
+
+.btn-aceitar-lgpd {
+    background: linear-gradient(135deg, #4f46e5, #25179e);
+    color: #ffffff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    font-size: 13.5px;
+}
+
+.btn-aceitar-lgpd:hover {
+    filter: brightness(1.1);
+}
