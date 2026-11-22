@@ -1,0 +1,398 @@
+/* ==========================================
+   PESQUISA DE USUÁRIOS — componente do cabeçalho
+   Carregado apenas nas páginas que incluem o
+   include/pesquisaUsuarios.php
+   NOTA: neste projeto a classe body.dark = TEMA CLARO
+========================================== */
+
+.rd-busca-usuarios {
+    position: relative;
+    flex: 0 0 auto;
+    width: 260px;
+    max-width: 34vw;
+    z-index: 60;
+    font-family: "Inter", sans-serif;
+}
+
+.rd-busca-usuarios *,
+.rd-busca-usuarios *::before,
+.rd-busca-usuarios *::after {
+    box-sizing: border-box;
+}
+
+/* ---------- GATILHO (somente mobile na topbar) ---------- */
+.rd-busca-usuarios__gatilho {
+    display: none;
+    align-items: center;
+    justify-content: center;
+    width: 38px;
+    height: 38px;
+    padding: 0;
+    border: 1px solid rgba(255, 255, 255, .08);
+    border-radius: 11px;
+    background: rgba(255, 255, 255, .04);
+    color: #cfcfe4;
+    font-size: 15px;
+    cursor: pointer;
+    transition: background .2s ease, color .2s ease, border-color .2s ease;
+}
+
+.rd-busca-usuarios__gatilho:hover {
+    background: rgba(255, 255, 255, .1);
+    border-color: rgba(255, 255, 255, .2);
+    color: #ffffff;
+}
+
+.rd-busca-usuarios__gatilho:focus-visible {
+    outline: 2px solid #3b82f6;
+    outline-offset: 2px;
+}
+
+/* ---------- CAMPO ---------- */
+.rd-busca-usuarios__painel {
+    position: relative;
+}
+
+.rd-busca-usuarios__campo {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    height: 38px;
+    padding: 0 12px;
+    border: 1px solid rgba(255, 255, 255, .08);
+    border-radius: 11px;
+    background: rgba(255, 255, 255, .04);
+    color: #8a8a9e;
+    transition: background .2s ease, border-color .2s ease, box-shadow .2s ease;
+}
+
+.rd-busca-usuarios__campo > i {
+    flex-shrink: 0;
+    font-size: 13px;
+}
+
+.rd-busca-usuarios__campo:focus-within {
+    border-color: #4f46e5;
+    box-shadow: 0 0 0 3px rgba(79, 70, 229, .18);
+}
+
+.rd-busca-usuarios__input {
+    flex: 1;
+    min-width: 0;
+    height: 100%;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    color: #eef0ff;
+    font-family: inherit;
+    font-size: 13px;
+    outline: none;
+}
+
+.rd-busca-usuarios__input::placeholder {
+    color: #8a8a9e;
+}
+
+.rd-busca-usuarios__input::-webkit-search-cancel-button {
+    -webkit-appearance: none;
+    appearance: none;
+}
+
+.rd-busca-usuarios__limpar {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 20px;
+    height: 20px;
+    padding: 0;
+    flex-shrink: 0;
+    border: 0;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, .1);
+    color: #cfcfe4;
+    font-size: 10px;
+    cursor: pointer;
+    transition: background .2s ease, color .2s ease;
+}
+
+.rd-busca-usuarios__limpar[hidden] {
+    display: none;
+}
+
+.rd-busca-usuarios__limpar:hover {
+    background: rgba(255, 255, 255, .2);
+    color: #ffffff;
+}
+
+/* ---------- RESULTADOS ---------- */
+.rd-busca-usuarios__resultados {
+    position: absolute;
+    top: calc(100% + 8px);
+    left: 0;
+    right: 0;
+    z-index: 120;
+    max-height: min(380px, 60vh);
+    overflow-y: auto;
+    padding: 6px;
+    border: 1px solid rgba(255, 255, 255, .1);
+    border-radius: 14px;
+    background: #17171f;
+    box-shadow: 0 18px 50px rgba(0, 0, 0, .55);
+}
+
+.rd-busca-usuarios__resultados[hidden] {
+    display: none;
+}
+
+.rd-busca-usuarios__item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 10px;
+    border-radius: 10px;
+    color: #d4d4d8;
+    text-decoration: none;
+    transition: background .15s ease, color .15s ease;
+}
+
+.rd-busca-usuarios__item:hover,
+.rd-busca-usuarios__item.is-ativo {
+    background: rgba(255, 255, 255, .07);
+    color: #ffffff;
+}
+
+.rd-busca-usuarios__item:focus-visible {
+    outline: 2px solid #3b82f6;
+    outline-offset: -2px;
+}
+
+.rd-busca-usuarios__item img {
+    width: 36px;
+    height: 36px;
+    flex-shrink: 0;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 1px solid rgba(147, 135, 255, .5);
+    background: #17172a;
+}
+
+.rd-busca-usuarios__info {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    gap: 2px;
+}
+
+.rd-busca-usuarios__info strong {
+    color: #ffffff;
+    font-size: 13px;
+    font-weight: 600;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.rd-busca-usuarios__info small {
+    color: #8a8a9e;
+    font-size: 11.5px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.rd-busca-usuarios__aviso {
+    padding: 14px 12px;
+    color: #8a8a9e;
+    font-size: 13px;
+    text-align: center;
+}
+
+/* ---------- CONTEXTO: TOPNAV (perfil / suporte) ---------- */
+.topnav .rd-busca-usuarios {
+    width: 158px;
+    max-width: none;
+}
+
+.topnav .rd-busca-usuarios__campo {
+    padding: 0 9px;
+    gap: 6px;
+}
+
+.topnav .rd-busca-usuarios__input {
+    font-size: 12px;
+}
+
+.topnav .rd-busca-usuarios__resultados {
+    left: auto;
+    right: 0;
+    width: 320px;
+    max-width: calc(100vw - 32px);
+}
+
+@media (min-width: 761px) and (max-width: 1000px) {
+    .topnav .rd-busca-usuarios {
+        width: 240px;
+    }
+
+    .topnav .rd-busca-usuarios__input {
+        font-size: 13px;
+    }
+}
+
+/* ---------- CONTEXTO: TOPBAR (layout principal) ---------- */
+.rd-topbar .rd-busca-usuarios {
+    width: 270px;
+    max-width: 30vw;
+}
+
+/* ==========================================
+   TEMA CLARO (body.dark)
+========================================== */
+body.dark .rd-busca-usuarios__campo {
+    background: rgba(0, 0, 0, .03);
+    border-color: rgba(0, 0, 0, .1);
+    color: #71717a;
+}
+
+body.dark .rd-busca-usuarios__input {
+    color: #18181b;
+}
+
+body.dark .rd-busca-usuarios__input::placeholder {
+    color: #71717a;
+}
+
+body.dark .rd-busca-usuarios__gatilho {
+    background: rgba(0, 0, 0, .03);
+    border-color: rgba(0, 0, 0, .1);
+    color: #52525b;
+}
+
+body.dark .rd-busca-usuarios__gatilho:hover {
+    background: rgba(37, 23, 158, .08);
+    border-color: rgba(37, 23, 158, .25);
+    color: #25179e;
+}
+
+body.dark .rd-busca-usuarios__limpar {
+    background: rgba(0, 0, 0, .08);
+    color: #52525b;
+}
+
+body.dark .rd-busca-usuarios__limpar:hover {
+    background: rgba(0, 0, 0, .15);
+    color: #18181b;
+}
+
+body.dark .rd-busca-usuarios__resultados {
+    background: #ffffff;
+    border-color: rgba(0, 0, 0, .1);
+    box-shadow: 0 18px 50px rgba(0, 0, 0, .18);
+}
+
+body.dark .rd-busca-usuarios__item {
+    color: #3f3f46;
+}
+
+body.dark .rd-busca-usuarios__item:hover,
+body.dark .rd-busca-usuarios__item.is-ativo {
+    background: #f4f4f5;
+    color: #18181b;
+}
+
+body.dark .rd-busca-usuarios__item img {
+    background: #e4e4e7;
+    border-color: rgba(79, 70, 229, .45);
+}
+
+body.dark .rd-busca-usuarios__info strong {
+    color: #18181b;
+}
+
+body.dark .rd-busca-usuarios__info small {
+    color: #71717a;
+}
+
+body.dark .rd-busca-usuarios__aviso {
+    color: #71717a;
+}
+
+/* ==========================================
+   RESPONSIVIDADE
+========================================== */
+
+/* Topbar do layout principal: vira botão + painel abaixo da barra */
+@media (max-width: 900px) {
+    .rd-topbar .rd-busca-usuarios {
+        position: static;
+        width: auto;
+        max-width: none;
+    }
+
+    .rd-topbar .rd-busca-usuarios__gatilho {
+        display: inline-flex;
+    }
+
+    .rd-topbar .rd-busca-usuarios__painel {
+        display: none;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        z-index: 120;
+        padding: 10px 14px 12px;
+        background: #121218;
+        border-bottom: 1px solid rgba(255, 255, 255, .08);
+        box-shadow: 0 18px 30px rgba(0, 0, 0, .45);
+    }
+
+    .rd-topbar .rd-busca-usuarios.is-aberto .rd-busca-usuarios__painel {
+        display: block;
+    }
+
+    body.dark .rd-topbar .rd-busca-usuarios__painel {
+        background: #ffffff;
+        border-bottom-color: rgba(0, 0, 0, .1);
+    }
+
+    .rd-topbar .rd-busca-usuarios__resultados {
+        max-height: min(50vh, 340px);
+    }
+}
+
+/* Topnav do perfil / suporte: segunda linha do cabeçalho */
+@media (max-width: 760px) {
+    .topnav .topnav-inner {
+        flex-wrap: wrap;
+        height: auto;
+        min-height: 64px;
+        padding-top: 10px;
+        padding-bottom: 10px;
+        row-gap: 8px;
+    }
+
+    .topnav .rd-busca-usuarios {
+        order: 10;
+        flex: 1 1 100%;
+        width: 100%;
+        max-width: none;
+    }
+
+    .topnav .rd-busca-usuarios__input {
+        font-size: 13px;
+    }
+
+    .topnav .rd-busca-usuarios__resultados {
+        left: 0;
+        right: 0;
+        width: auto;
+        max-width: none;
+    }
+}
+
+@media (max-width: 500px) {
+    .rd-topbar .rd-busca-usuarios__gatilho {
+        width: 36px;
+        height: 36px;
+    }
+}

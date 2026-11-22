@@ -158,3 +158,454 @@ body {
     text-decoration: none;
     font-weight: 600;
 }
+
+/* No celular, as artes viram faixas acima e abaixo do login. */
+@media (max-width: 700px) {
+    body {
+        height: auto;
+        min-height: 100dvh;
+        overflow-x: hidden;
+        overflow-y: auto;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 8px;
+        padding-top: max(8px, env(safe-area-inset-top));
+        padding-bottom: max(8px, env(safe-area-inset-bottom));
+    }
+
+    .coluna {
+        width: 100%;
+        height: clamp(72px, 13dvh, 112px);
+        flex: 0 0 auto;
+    }
+
+    .coluna::before,
+    .coluna::after {
+        display: none;
+    }
+
+    .carrossel {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: flex-start;
+        gap: 0;
+        padding: 4px 12px;
+    }
+
+    .track {
+        position: relative;
+        display: block;
+        flex: 0 0 100%;
+        width: 100%;
+        height: 100%;
+        min-width: 0;
+        overflow: hidden;
+    }
+
+    /* Usa um único trilho por faixa para não criar uma emenda no centro. */
+    .track:nth-child(n+2) {
+        display: none;
+    }
+
+    .track img {
+        display: block;
+        position: absolute;
+        top: 50%;
+        left: 0;
+        width: clamp(52px, 15vw, 68px);
+        height: clamp(52px, 15vw, 68px);
+        aspect-ratio: 1 / 1;
+        object-fit: contain;
+        border-radius: 10px;
+        animation-duration: 12s;
+        animation-timing-function: linear;
+        animation-iteration-count: infinite;
+    }
+
+    /* Trilhos alternados atravessam a faixa em sentidos opostos. */
+    .track-up img {
+        animation-name: loginArtParaDireita;
+    }
+
+    .track-down img {
+        animation-name: loginArtParaEsquerda;
+    }
+
+    /* A faixa superior inteira segue para a direita; a inferior, para a esquerda. */
+    [data-faixa-login="superior"] .track img {
+        animation-name: loginArtParaDireita;
+    }
+
+    [data-faixa-login="inferior"] .track img {
+        animation-name: loginArtParaEsquerda;
+    }
+
+    .track img:nth-child(1) { animation-delay: 0s; }
+    .track img:nth-child(2) { animation-delay: -2s; }
+    .track img:nth-child(3) { animation-delay: -4s; }
+    .track img:nth-child(4) { animation-delay: -6s; }
+    .track img:nth-child(5) { animation-delay: -8s; }
+    .track img:nth-child(6) { animation-delay: -10s; }
+
+    @keyframes loginArtParaDireita {
+        from { transform: translate(-100%, -50%); }
+        to { transform: translate(calc(100vw - 24px), -50%); }
+    }
+
+    @keyframes loginArtParaEsquerda {
+        from { transform: translate(calc(100vw - 24px), -50%); }
+        to { transform: translate(-100%, -50%); }
+    }
+
+    .track-up,
+    .track-down {
+        transform: none;
+    }
+
+    .centro {
+        order: 0;
+        width: 100%;
+        height: auto;
+        min-height: min(66dvh, 560px);
+        flex: 1 0 auto;
+        justify-content: center;
+        padding: 12px 0;
+    }
+
+    .logo {
+        margin-bottom: 14px;
+        font-size: clamp(1.8rem, 8vw, 2.4rem);
+    }
+
+    .form-card {
+        width: min(460px, calc(100% - 28px));
+        max-width: 460px;
+        padding: clamp(22px, 7vw, 34px);
+        border-radius: 18px;
+        box-shadow: 0 18px 44px rgba(0, 0, 0, .28);
+    }
+
+    .form {
+        gap: 18px;
+    }
+
+    .input-group label {
+        font-size: .95rem;
+    }
+
+    .input-group input {
+        min-height: 50px;
+        padding: 14px;
+        font-size: 16px; /* Evita zoom automático do Safari ao focar o campo. */
+    }
+
+    .btn-primary {
+        min-height: 50px;
+        font-size: 16px;
+    }
+
+    .signup-text {
+        font-size: .9rem;
+    }
+}
+
+@media (max-width: 380px) {
+    .coluna {
+        height: 68px;
+    }
+
+    .track img {
+        width: 52px;
+        height: 52px;
+    }
+}
+
+@media (max-height: 620px) and (max-width: 700px) {
+    .coluna {
+        height: 60px;
+    }
+
+    .centro {
+        min-height: 0;
+        padding: 8px 0;
+    }
+
+    .logo {
+        margin-bottom: 8px;
+        font-size: 1.6rem;
+    }
+
+    .form-card {
+        padding: 16px 22px;
+    }
+
+    .form {
+        gap: 10px;
+    }
+}
+
+/* --- Região central: identidade REDDART --- */
+.centro {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    background: #08060d;
+}
+
+.centro::before {
+    content: "";
+    position: absolute;
+    z-index: -2;
+    inset: -12%;
+    pointer-events: none;
+    background:
+        radial-gradient(ellipse at 5% 24%, rgba(87, 20, 164, .28), transparent 36%),
+        radial-gradient(ellipse at 96% 78%, rgba(75, 18, 137, .25), transparent 38%),
+        radial-gradient(ellipse at 50% 50%, rgba(36, 12, 70, .2), transparent 62%);
+    filter: blur(28px);
+    animation: reddartSmoke 18s ease-in-out infinite alternate;
+}
+
+.centro-simbolo {
+    position: absolute;
+    z-index: -1;
+    inset: 8% 2%;
+    display: grid;
+    place-items: center;
+    overflow: hidden;
+    pointer-events: none;
+    color: #7028d9;
+    opacity: .085;
+}
+
+.centro-simbolo svg {
+    width: min(100%, 420px);
+    height: 92%;
+    fill: currentColor;
+    filter: drop-shadow(0 0 22px rgba(122, 42, 255, .28));
+}
+
+.centro > :not(.centro-simbolo) {
+    position: relative;
+    z-index: 1;
+}
+
+.logo {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 22px;
+    color: #9a63ff;
+    font-family: Inter, "Segoe UI", sans-serif;
+    font-size: clamp(1.8rem, 2.4vw, 2.25rem);
+    font-weight: 850;
+    letter-spacing: .19em;
+    line-height: 1;
+    text-shadow: 0 0 14px rgba(122, 55, 255, .4);
+}
+
+.logo-insignia {
+    width: 25px;
+    height: 25px;
+    overflow: visible;
+    fill: none;
+    stroke: #a875ff;
+    stroke-width: 1.5;
+    filter: drop-shadow(0 0 7px rgba(146, 83, 255, .7));
+    animation: insigniaGlow 4s ease-in-out infinite alternate;
+}
+
+.form-card {
+    width: min(90%, 410px);
+    max-width: 410px;
+    padding: clamp(24px, 2.4vw, 32px);
+    border: 1px solid rgba(153, 83, 255, .72);
+    border-radius: 20px;
+    background: rgba(10, 7, 17, .83);
+    box-shadow:
+        0 0 0 1px rgba(104, 40, 202, .14),
+        0 0 26px rgba(97, 31, 179, .2),
+        inset 0 0 24px rgba(74, 24, 131, .1);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    animation: cardGlow 6s ease-in-out infinite;
+    transition: border-color .25s ease, transform .25s ease;
+}
+
+.form-card:hover {
+    border-color: rgba(176, 120, 255, .9);
+}
+
+.form {
+    gap: 17px;
+}
+
+.input-group {
+    gap: 7px;
+}
+
+.input-group label {
+    color: #e1d8ef;
+    font-size: .86rem;
+    font-weight: 500;
+    letter-spacing: .01em;
+}
+
+.input-shell {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.input-shell > svg {
+    position: absolute;
+    left: 13px;
+    z-index: 1;
+    width: 17px;
+    height: 17px;
+    fill: none;
+    stroke: #b9a7d4;
+    stroke-width: 1.6;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    pointer-events: none;
+    transition: stroke .2s ease, filter .2s ease;
+}
+
+.input-shell input {
+    width: 100%;
+    min-height: 45px;
+    padding: 11px 13px 11px 40px;
+    border: 1px solid rgba(139, 117, 168, .28);
+    border-radius: 9px;
+    outline: none;
+    background: rgba(24, 17, 35, .9);
+    color: #f6f0ff;
+    font-size: .9rem;
+    transition: border-color .22s ease, box-shadow .22s ease, background .22s ease;
+}
+
+.input-shell input::placeholder {
+    color: #8c829b;
+    opacity: 1;
+}
+
+.input-shell:focus-within > svg {
+    stroke: #bd91ff;
+    filter: drop-shadow(0 0 4px rgba(161, 93, 255, .7));
+}
+
+.input-shell input:focus {
+    border-color: #9652f5;
+    background: rgba(30, 20, 46, .98);
+    box-shadow: 0 0 0 3px rgba(126, 61, 220, .14), 0 0 15px rgba(126, 61, 220, .14);
+}
+
+.btn-primary {
+    min-height: 46px;
+    margin-top: 4px;
+    border: 1px solid rgba(196, 153, 255, .18);
+    border-radius: 9px;
+    background: linear-gradient(105deg, #6124d8 0%, #7433f0 52%, #5420c4 100%);
+    box-shadow: 0 7px 20px rgba(91, 32, 193, .28);
+    color: #fff;
+    font-size: .92rem;
+    font-weight: 700;
+    letter-spacing: .055em;
+    text-transform: uppercase;
+    transition: transform .2s ease, box-shadow .2s ease, filter .2s ease;
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+    filter: brightness(1.1);
+    box-shadow: 0 10px 25px rgba(112, 48, 226, .4);
+}
+
+.btn-primary:active {
+    transform: translateY(0);
+}
+
+.btn-primary:focus-visible,
+.signup-text a:focus-visible {
+    outline: 2px solid #c6a3ff;
+    outline-offset: 3px;
+}
+
+.signup-text {
+    color: #a59bb2;
+    font-size: .8rem;
+    line-height: 1.5;
+}
+
+.signup-text a {
+    color: #a875ff;
+    transition: color .2s ease, text-shadow .2s ease;
+}
+
+.signup-text a:hover {
+    color: #d0b1ff;
+    text-shadow: 0 0 10px rgba(153, 83, 255, .55);
+}
+
+.form > p[style] {
+    margin-top: -5px;
+    line-height: 1.4;
+}
+
+@keyframes reddartSmoke {
+    0% { transform: translate3d(-2%, -1%, 0) scale(1); opacity: .72; }
+    100% { transform: translate3d(2%, 1%, 0) scale(1.08); opacity: 1; }
+}
+
+@keyframes cardGlow {
+    0%, 100% { box-shadow: 0 0 0 1px rgba(104, 40, 202, .14), 0 0 22px rgba(97, 31, 179, .17), inset 0 0 24px rgba(74, 24, 131, .1); }
+    50% { box-shadow: 0 0 0 1px rgba(143, 76, 230, .22), 0 0 30px rgba(112, 43, 202, .26), inset 0 0 28px rgba(91, 34, 150, .13); }
+}
+
+@keyframes insigniaGlow {
+    from { opacity: .78; filter: drop-shadow(0 0 4px rgba(146, 83, 255, .45)); }
+    to { opacity: 1; filter: drop-shadow(0 0 9px rgba(146, 83, 255, .8)); }
+}
+
+@media (max-width: 700px) {
+    .centro {
+        overflow: hidden;
+        background: radial-gradient(ellipse at center, #08060d 42%, rgba(8, 6, 13, .94) 100%);
+    }
+
+    .centro-simbolo {
+        inset: 4% 8%;
+        opacity: .055;
+    }
+
+    .centro-simbolo svg {
+        width: min(100%, 340px);
+    }
+
+    .logo {
+        margin-bottom: 16px;
+        font-size: clamp(1.7rem, 8vw, 2rem);
+    }
+
+    .form-card {
+        width: min(460px, calc(100% - 28px));
+        padding: clamp(22px, 7vw, 32px);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .centro::before,
+    .logo-insignia,
+    .form-card {
+        animation: none;
+    }
+
+    .btn-primary,
+    .form-card,
+    .input-shell input {
+        transition: none;
+    }
+}

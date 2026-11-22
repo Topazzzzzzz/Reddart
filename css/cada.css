@@ -189,3 +189,48 @@
                 flex-direction: column;
             }
         }
+
+        @media (max-width: 600px) {
+            body {
+                width: 100%;
+                min-height: 100dvh;
+                justify-content: flex-start;
+                padding: max(20px, env(safe-area-inset-top)) 14px max(20px, env(safe-area-inset-bottom));
+            }
+
+            .site-header {
+                margin: 8px 0 14px;
+            }
+
+            .site-title {
+                font-size: clamp(28px, 8vw, 36px);
+            }
+
+            .cadastro-container {
+                width: 100%;
+                max-width: 480px;
+                padding: clamp(18px, 5vw, 28px);
+            }
+
+            .form-row {
+                flex-direction: column;
+                gap: 16px;
+            }
+
+            .cadastro-container input[type="text"],
+            .cadastro-container input[type="email"],
+            .cadastro-container input[type="password"],
+            .cadastro-container textarea {
+                min-height: 48px;
+                font-size: 16px;
+            }
+
+            .cadastro-container textarea {
+                min-height: 96px;
+            }
+
+            .file-drop-area {
+                min-height: 96px;
+                padding: 16px;
+            }
+        }
