@@ -809,59 +809,66 @@ function removerSalvo(id, iconeElemento) {
 }
 
 /* ==========================================================================
-   CONEXÃO FRONTEND COM A API DE VERIFICAÇÃO DE E-MAIL (NODE.JS)
+   VERIFICAÇÃO DE E-MAIL (via PHP: api/enviar-codigo.php e api/validar-codigo.php)
+   Não depende mais do servidor Node.js.
    ========================================================================== */
 
-const API_URL = (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1')
-    ? 'http://localhost:3000'
-    : `${window.location.protocol}//${window.location.hostname}`;
+// Lê a resposta como JSON; se vier HTML ou algo estranho, não quebra.
+async function lerResposta(response) {
+    const texto = await response.text();
+    try {
+        return JSON.parse(texto);
+    } catch (e) {
+        console.error('Resposta não era JSON:', response.status, response.url, texto.slice(0, 200));
+        return { mensagem: 'O servidor respondeu algo inesperado (status ' + response.status + ').' };
+    }
+}
 
+// idUsuario e email são ignorados: o PHP usa a sessão e o e-mail do banco.
 async function solicitarCodigoConfirmacao(idUsuario, email) {
     try {
-        const response = await fetch(`${API_URL}/api/enviar-codigo`, {
+        const response = await fetch('api/enviarCodigo.php', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ idUsuario, email })
+            credentials: 'same-origin',
+            body: JSON.stringify({})
         });
 
-        const data = await response.json();
+        const data = await lerResposta(response);
 
         if (response.ok) {
-            console.log('Resposta do servidor:', data);
             return true;
-        } else {
-            alert('Erro ao enviar código: ' + (data.mensagem || data.erro));
-            console.error('Erro:', data);
-            return false;
         }
+
+        alert('Erro ao enviar código: ' + (data.mensagem || 'tente novamente.'));
+        return false;
     } catch (error) {
-        alert('Erro de conexão com o servidor de e-mail.');
         console.error('Erro na requisição:', error);
+        alert('Erro de conexão com o servidor.');
         return false;
     }
 }
 
 async function confirmarCodigoEmail(idUsuario, codigo) {
     try {
-        const response = await fetch(`${API_URL}/api/validar-codigo`, {
+        const response = await fetch('api/validarCodigo.php', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ idUsuario, codigo })
+            credentials: 'same-origin',
+            body: JSON.stringify({ codigo })
         });
 
-        const data = await response.json();
+        const data = await lerResposta(response);
 
         if (response.ok) {
-            console.log('Sucesso:', data);
             return true;
-        } else {
-            alert('Falha na verificação: ' + (data.mensagem || data.erro));
-            console.error('Erro na validação:', data);
-            return false;
         }
+
+        alert('Falha na verificação: ' + (data.mensagem || 'tente novamente.'));
+        return false;
     } catch (error) {
-        alert('Erro de conexão com o servidor.');
         console.error('Erro na requisição:', error);
+        alert('Erro de conexão com o servidor.');
         return false;
     }
 }
