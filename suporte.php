@@ -83,6 +83,7 @@ foreach ($faq as $f) {
     <link rel="stylesheet" href="css/headerTopo.css">
     <link rel="stylesheet" href="css/suporte.css">
     <link rel="stylesheet" href="css/footer.css">
+    <link rel="stylesheet" href="css/responsivo.css?v=1">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">

@@ -39,6 +39,7 @@ $caminhoBannerAtual = !empty($usuario['userBanner']) ? htmlspecialchars($usuario
     <title>Editar Perfil | ReddArt</title>
     <link rel="icon" type="image/png" href="img/logo.png">
     <link rel="stylesheet" href="css/editarperfil.css">
+    <link rel="stylesheet" href="css/responsivo.css?v=1">
 
     <!-- Fontes & Ícones -->
     <link rel="preconnect" href="https://fonts.googleapis.com">

@@ -51,13 +51,13 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>REDDART - Login</title>
     <link rel="icon" type="image/png" href="img/logo.png">
-    <link rel="stylesheet" href="css/login.css">
+    <link rel="stylesheet" href="css/login.css?v=6">
 </head>
 
 <body>
 
     <!-- Coluna Esquerda -->
-    <div class="coluna">
+    <div class="coluna coluna-faixa-superior" data-faixa-login="superior">
         <div class="carrossel">
             <div class="track track-up">
                 <img src="fotosLogin/FireBird.png" alt="Art">
@@ -80,16 +80,41 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
     <!-- Centro -->
     <div class="centro">
-        <h1 class="logo">REDDART</h1>
+        <div class="centro-simbolo" aria-hidden="true">
+            <svg viewBox="0 0 360 520" role="presentation">
+                <path d="M78 58h142c62 0 101 35 101 91 0 43-25 73-69 84l81 163h-83l-72-153h-25v153H78V58Zm75 66v55h65c18 0 28-10 28-28 0-17-10-27-28-27h-65Z" />
+                <path d="m180 15 16 43 43 16-43 16-16 43-16-43-43-16 43-16 16-43Z" />
+            </svg>
+        </div>
+
+        <h1 class="logo">
+            <svg class="logo-insignia" viewBox="0 0 40 40" aria-hidden="true" focusable="false">
+                <path d="M20 2 24.5 15.5 38 20l-13.5 4.5L20 38l-4.5-13.5L2 20l13.5-4.5L20 2Z" />
+                <circle cx="20" cy="20" r="3" />
+            </svg>
+            <span>REDDART</span>
+        </h1>
         <div class="form-card">
             <form class="form" method="POST" action="">
                 <div class="input-group">
-                    <label>E-mail:</label>
-                    <input type="email" name="userEmail" placeholder="seuemail@exemplo.com" required>
+                    <label for="loginEmail">E-mail:</label>
+                    <div class="input-shell">
+                        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                            <rect x="3" y="5" width="18" height="14" rx="2" />
+                            <path d="m4 7 8 6 8-6" />
+                        </svg>
+                        <input id="loginEmail" type="email" name="userEmail" placeholder="seuemail@exemplo.com" autocomplete="email" required>
+                    </div>
                 </div>
                 <div class="input-group">
-                    <label>Senha:</label>
-                    <input type="password" name="userSenha" placeholder="••••••••••••" required>
+                    <label for="loginSenha">Senha:</label>
+                    <div class="input-shell">
+                        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                            <rect x="4" y="10" width="16" height="11" rx="2" />
+                            <path d="M8 10V7a4 4 0 0 1 8 0v3m-4 5v2" />
+                        </svg>
+                        <input id="loginSenha" type="password" name="userSenha" placeholder="••••••••••••" autocomplete="current-password" required>
+                    </div>
                 </div>
                 <button type="submit" class="btn-primary">Entrar</button>
                 <?php if ($erro): ?>
@@ -101,7 +126,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     </div>
 
     <!-- Coluna Direita -->
-    <div class="coluna">
+    <div class="coluna coluna-faixa-inferior" data-faixa-login="inferior">
         <div class="carrossel">
             <div class="track track-down">
                 <img src="fotosLogin/STheWay.png" alt="Art">

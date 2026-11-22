@@ -156,7 +156,7 @@ $qtdRecentes = 8;
                         $curtidasPub = intval($row['pubCurtidas'] ?? 0);
                         $dataPub = !empty($row['pubHora']) ? date('d/m/Y H:i', strtotime($row['pubHora'])) : '';
                 ?>
-                    <div class="media-card" onclick="abrirModal('<?php echo $link; ?>', '<?php echo $autorJs; ?>', '<?php echo $row['idPublicacao']; ?>', '<?php echo $tituloJs; ?>', 'Publicado por <?php echo $autorJs; ?> em <?php echo $dataPub; ?>', <?php echo $curtidasPub; ?>)">
+                    <div class="media-card" data-publicacao-id="<?php echo (int) $row['idPublicacao']; ?>" data-owner-id="<?php echo (int) $row['idUsuario']; ?>" onclick="abrirModal('<?php echo $link; ?>', '<?php echo $autorJs; ?>', '<?php echo $row['idPublicacao']; ?>', '<?php echo $tituloJs; ?>', 'Publicado por <?php echo $autorJs; ?> em <?php echo $dataPub; ?>', <?php echo $curtidasPub; ?>)">
                         <img src="<?php echo $link; ?>" alt="<?php echo $legenda; ?>">
                         <div class="card-footer-info">
                             <span class="curtida" onclick="curtir(event, <?php echo $row['idPublicacao']; ?>)">
@@ -211,7 +211,7 @@ $qtdRecentes = 8;
                             $curtidasGaleria = intval($row['pubCurtidas'] ?? 0);
                             $dataGaleria = !empty($row['pubHora']) ? date('d/m/Y H:i', strtotime($row['pubHora'])) : '';
                     ?>
-                        <div class="media-card" onclick="abrirModal('<?php echo $linkGaleria; ?>', '<?php echo $autorGaleriaJs; ?>', '<?php echo $row['idPublicacao']; ?>', '<?php echo $tituloGaleriaJs; ?>', 'Publicado por <?php echo $autorGaleriaJs; ?> em <?php echo $dataGaleria; ?>', <?php echo $curtidasGaleria; ?>)">
+                        <div class="media-card" data-publicacao-id="<?php echo (int) $row['idPublicacao']; ?>" data-owner-id="<?php echo (int) $row['idUsuario']; ?>" onclick="abrirModal('<?php echo $linkGaleria; ?>', '<?php echo $autorGaleriaJs; ?>', '<?php echo $row['idPublicacao']; ?>', '<?php echo $tituloGaleriaJs; ?>', 'Publicado por <?php echo $autorGaleriaJs; ?> em <?php echo $dataGaleria; ?>', <?php echo $curtidasGaleria; ?>)">
                             <img src="<?php echo $linkGaleria; ?>" alt="<?php echo $legendaGaleria; ?>">
                             <div class="card-footer-info">
                                 <span class="curtida" onclick="curtir(event, <?php echo $row['idPublicacao']; ?>)">
@@ -236,7 +236,7 @@ $qtdRecentes = 8;
     </main>
 
     <!-- MODAL DE PREVISÃO -->
-    <div id="previewModal" class="preview-modal">
+    <div id="previewModal" class="preview-modal" data-id-usuario="<?php echo (int) $idUsuario; ?>">
         <div class="conteudo-modal-container">
             <span class="close-preview">&times;</span>
             <div class="modal-esquerda">
@@ -259,6 +259,9 @@ $qtdRecentes = 8;
                     <div class="stat-btn" id="btnSalvarModal" onclick="alternarIconeSalvar()">
                         <i class="fa-regular fa-bookmark"></i>
                     </div>
+                    <button type="button" class="btn-denunciar-publicacao" data-denunciar-publicacao data-publicacao-id="" hidden>
+                        <i class="fa-solid fa-flag" aria-hidden="true"></i> Denunciar
+                    </button>
                 </div>
 
                 <div class="modal-comentarios">
@@ -274,6 +277,7 @@ $qtdRecentes = 8;
         </div>
     </div>
 
+    <?php include_once 'include/denunciaModal.php'; ?>
     <script src="public/script.js?v=14"></script>
 </body>
 </html>

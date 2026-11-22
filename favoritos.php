@@ -108,6 +108,9 @@ include_once 'include/header.php';
         <div class="fav-preview-info">
             <h3 id="favPreviewTitulo">Sem título</h3>
             <p id="favPreviewSub"></p>
+            <button type="button" class="btn-denunciar-publicacao" data-denunciar-publicacao data-publicacao-id="" hidden>
+                <i class="fa-solid fa-flag" aria-hidden="true"></i> Denunciar publicação
+            </button>
             <button class="fav-unfav" onclick="desfavoritarNoPreview(event)">
                 <i class="fa-solid fa-heart-crack"></i> Desfavoritar
             </button>
@@ -116,6 +119,7 @@ include_once 'include/header.php';
 </div>
 
 <script src="public/script.js?v=14"></script>
+<?php include_once 'include/denunciaModal.php'; ?>
 
 <script>
 // Funções do Modal de Pasta
@@ -286,6 +290,10 @@ function abrirFavItem(event, idOuImagem) {
     const item = (favCache || []).find(it => normalizar(it.id) === alvo || normalizar(it.imagem) === alvo);
     if (!item) return;
 
+    if (typeof window.registrarVisualizacaoObra === 'function' && /^\d+$/.test(String(item.id || ''))) {
+        window.registrarVisualizacaoObra(item.id);
+    }
+
     favPreviewId = alvo;
     const img = document.getElementById('favPreviewImg');
     const titulo = document.getElementById('favPreviewTitulo');
@@ -298,6 +306,11 @@ function abrirFavItem(event, idOuImagem) {
     }
     if (titulo) titulo.textContent = item.titulo || 'Sem título';
     if (sub) sub.textContent = categoriaDe(item).label + ' · ' + (item.curtidas || 0) + ' curtidas';
+    const btnDenunciar = document.querySelector('#favPreview [data-denunciar-publicacao]');
+    if (btnDenunciar) {
+        btnDenunciar.dataset.publicacaoId = /^\d+$/.test(String(item.id || '')) ? String(item.id) : '';
+        btnDenunciar.hidden = !btnDenunciar.dataset.publicacaoId;
+    }
     if (modal) modal.classList.add('show');
 }
 

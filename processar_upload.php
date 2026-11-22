@@ -27,6 +27,7 @@ function mostrarResultado($tipo, $titulo, $mensagem, $destino, $textoBotao, $aut
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>' . htmlspecialchars($titulo, ENT_QUOTES, 'UTF-8') . ' - ReddArt</title>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<link rel="stylesheet" href="css/responsivo.css?v=1">
 <style>
 @import url(\'https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap\');
 * { margin:0; padding:0; box-sizing:border-box; font-family:\'Poppins\',sans-serif; }

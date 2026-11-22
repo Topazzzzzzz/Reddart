@@ -8,6 +8,7 @@
     <link rel="icon" type="image/png" href="img/logo.png">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="css/adicionar.css">
+    <link rel="stylesheet" href="css/responsivo.css?v=1">
 </head>
 
 <body>

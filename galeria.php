@@ -8,7 +8,9 @@ if (!isset($_SESSION['idUsuario'])) {
     exit;
 }
 
-$idUsuario = intval($_SESSION['idUsuario']);
+$idSessao = intval($_SESSION['idUsuario']);
+$idPerfil = isset($_GET['id']) ? intval($_GET['id']) : 0;
+$idUsuario = $idPerfil > 0 ? $idPerfil : $idSessao;
 
 // 1. Busca os dados do usuário com Prepared Statement (Segurança contra SQL Injection)
 $sqlUsuario = "SELECT userNome, userDescricao, userFoto, userBanner FROM tblUsuario WHERE idUsuario = ?";
@@ -19,6 +21,10 @@ $resUsuario = mysqli_stmt_get_result($stmtUser);
 $usuario = mysqli_fetch_assoc($resUsuario);
 
 if (!$usuario) {
+    if ($idPerfil > 0 && $idPerfil !== $idSessao) {
+        header("Location: galeria.php");
+        exit;
+    }
     header("Location: login.php");
     exit;
 }
@@ -64,6 +70,7 @@ if ($resPublicacoes) {
     <link rel="icon" type="image/png" href="img/logo.png">
     <!-- Estilos Personalizados -->
     <link rel="stylesheet" href="css/galeria.css">
+    <link rel="stylesheet" href="css/responsivo.css?v=1">
 
     <!-- Google Fonts: Archivo Black e Inter -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
