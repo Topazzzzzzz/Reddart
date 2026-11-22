@@ -348,6 +348,19 @@ document.addEventListener("DOMContentLoaded", () => {
 
     window.abrirModal = function (urlImagem, nomeAutor, idPub, titulo, descricao, curtidas) {
         idPostAtualModal = idPub;
+        if (typeof window.registrarVisualizacaoObra === 'function') {
+            window.registrarVisualizacaoObra(idPub);
+        }
+
+        const botaoDenuncia = document.querySelector('#previewModal [data-denunciar-publicacao]');
+        if (botaoDenuncia) {
+            const cardPublicacao = Array.from(document.querySelectorAll('.media-card[data-publicacao-id]'))
+                .find((card) => card.dataset.publicacaoId === String(idPub));
+            const donoId = parseInt(cardPublicacao ? cardPublicacao.dataset.ownerId : '0', 10);
+            const usuarioId = parseInt(previewModal ? previewModal.dataset.idUsuario : '0', 10);
+            botaoDenuncia.dataset.publicacaoId = String(idPub || '');
+            botaoDenuncia.hidden = donoId > 0 && donoId === usuarioId;
+        }
 
         if (previewModal && previewImage) {
             previewImage.src = urlImagem;
@@ -809,9 +822,14 @@ function removerSalvo(id, iconeElemento) {
 }
 
 /* ==========================================================================
-   VERIFICAÇÃO DE E-MAIL (via PHP: api/enviar-codigo.php e api/validar-codigo.php)
+   VERIFICAÇÃO DE E-MAIL (via PHP, pasta api/)
    Não depende mais do servidor Node.js.
    ========================================================================== */
+
+// Nomes dos arquivos PHP da verificação (dentro da pasta api/).
+// Precisam ser IGUAIS aos nomes dos arquivos que estão no servidor.
+const URL_ENVIAR_CODIGO  = 'api/enviarCodigo.php';
+const URL_VALIDAR_CODIGO = 'api/validarCodigo.php';
 
 // Lê a resposta como JSON; se vier HTML ou algo estranho, não quebra.
 async function lerResposta(response) {
@@ -824,10 +842,25 @@ async function lerResposta(response) {
     }
 }
 
+// Mostra um aviso na tela do código (assim você sabe que o envio foi aceito).
+function mostrarStatusCodigo(texto) {
+    const secao = document.getElementById('secaoVerificacao');
+    if (!secao) return;
+
+    let el = document.getElementById('statusEnvioCodigo');
+    if (!el) {
+        el = document.createElement('p');
+        el.id = 'statusEnvioCodigo';
+        el.style.cssText = 'margin:0 0 15px;color:#86efac;font-size:14px;';
+        secao.insertBefore(el, secao.querySelector('.form-group'));
+    }
+    el.textContent = texto;
+}
+
 // idUsuario e email são ignorados: o PHP usa a sessão e o e-mail do banco.
 async function solicitarCodigoConfirmacao(idUsuario, email) {
     try {
-        const response = await fetch('api/enviarCodigo.php', {
+        const response = await fetch(URL_ENVIAR_CODIGO, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             credentials: 'same-origin',
@@ -837,6 +870,7 @@ async function solicitarCodigoConfirmacao(idUsuario, email) {
         const data = await lerResposta(response);
 
         if (response.ok) {
+            mostrarStatusCodigo(data.mensagem || 'Código enviado! Verifique seu e-mail e o spam.');
             return true;
         }
 
@@ -851,7 +885,7 @@ async function solicitarCodigoConfirmacao(idUsuario, email) {
 
 async function confirmarCodigoEmail(idUsuario, codigo) {
     try {
-        const response = await fetch('api/validarCodigo.php', {
+        const response = await fetch(URL_VALIDAR_CODIGO, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             credentials: 'same-origin',

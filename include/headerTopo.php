@@ -7,7 +7,7 @@ if (session_status() === PHP_SESSION_NONE) {
 
 // Se a página que incluiu o header já buscou o $usuario, reaproveita.
 // Se não, busca aqui (nome, e-mail e foto).
-if (!isset($usuario) || !is_array($usuario)) {
+if (!isset($usuario) || !is_array($usuario) || (int) ($usuario['idUsuario'] ?? 0) !== (int) ($_SESSION['idUsuario'] ?? 0)) {
     include_once __DIR__ . "/../setup/conexao.php";
 
     $usuario = [];
@@ -70,7 +70,10 @@ $itensTop = [
             </ul>
         </nav>
 
+        <?php include_once __DIR__ . '/pesquisaUsuarios.php'; ?>
+
         <div class="topnav-right">
+            <?php include_once __DIR__ . '/notificacoes.php'; ?>
             <a class="topnav-user" href="perfil.php" title="Meu perfil">
                 <img src="<?php echo htmlspecialchars($topFoto); ?>" alt="Avatar">
                 <span class="topnav-user-tx">
@@ -89,6 +92,7 @@ $itensTop = [
 
                 <div class="topnav-menu" id="topnavMenu" hidden>
                     <a href="perfil.php"><i class="fa-solid fa-user"></i> Perfil</a>
+                    <a href="amizades.php"><i class="fa-solid fa-user-group"></i> Amigos</a>
                     <a href="index.php" class="logout"><i class="fa-solid fa-right-from-bracket"></i> Voltar</a>
                 </div>
             </div>

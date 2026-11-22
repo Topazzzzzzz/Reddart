@@ -103,6 +103,7 @@ function rd_html($valor)
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="css/index.css?v=14">
     <link rel="stylesheet" href="css/header.css?v=1">
+    <link rel="stylesheet" href="css/responsivo.css?v=1">
     <link rel="icon" type="image/png" href="img/logo.png">
 </head>
 <body class="<?php echo rd_html($corpoClasse); ?>">
@@ -198,6 +199,8 @@ function rd_html($valor)
         <h1 class="rd-topbar__titulo"><?php echo rd_html($tituloPagina); ?></h1>
 
         <div class="rd-topbar__acoes">
+            <?php include_once __DIR__ . '/pesquisaUsuarios.php'; ?>
+            <?php include_once __DIR__ . '/notificacoes.php'; ?>
             <a class="rd-topbar__icone" href="index.php" aria-label="Explorar artes" title="Explorar">
                 <i class="fa-solid fa-compass" aria-hidden="true"></i>
             </a>
@@ -216,6 +219,7 @@ function rd_html($valor)
                     <a href="perfil.php"><i class="fa-solid fa-user" aria-hidden="true"></i> Meu perfil</a>
                     <a href="editarPerfil.php"><i class="fa-solid fa-pen-to-square" aria-hidden="true"></i> Editar perfil</a>
                     <a href="favoritos.php"><i class="fa-solid fa-bookmark" aria-hidden="true"></i> Salvos</a>
+                    <a href="amizades.php"><i class="fa-solid fa-user-group" aria-hidden="true"></i> Amigos</a>
                     <a href="suporte.php"><i class="fa-solid fa-headset" aria-hidden="true"></i> Suporte</a>
                     <form action="logout.php" method="post">
                         <button type="submit"><i class="fa-solid fa-right-from-bracket" aria-hidden="true"></i> Sair</button>
